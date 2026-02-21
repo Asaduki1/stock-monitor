@@ -118,6 +118,15 @@
     </div>
     <div class="hint">※ 銘柄名・配当・利回りは次回自動実行時に取得されます</div>
     <div class="msg" id="addMsg"></div>
+    <div class="section-title">📨 Telegram テスト送信</div>
+    <div class="input-row">
+      <input type="password" id="tgToken" placeholder="Telegram Bot Token（ghp_とは別）">
+    </div>
+    <div style="margin-bottom:8px;">
+      <input type="text" id="tgChatId" placeholder="Chat ID（例: 1235454170）">
+    </div>
+    <button class="btn" onclick="sendTestTelegram()">SEND TEST</button>
+    <div class="msg" id="tgMsg"></div>    
   </div>
 
   <script>
@@ -297,6 +306,33 @@
     }
 
     loadData();
+
+    async function sendTestTelegram() {
+      const token = document.getElementById("tgToken").value.trim();
+      const chatId = document.getElementById("tgChatId").value.trim();
+      if (!token || !chatId) {
+        showMsg("tgMsg", "TokenとChat IDを入力してください", true); return;
+      }
+      showMsg("tgMsg", "SENDING...");
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: "🟢 Stock Monitor テスト送信\n正常に通知が届いています！"
+          })
+        });
+        const data = await res.json();
+        if (data.ok) {
+          showMsg("tgMsg", "✓ 送信成功！Telegramを確認してください");
+        } else {
+          showMsg("tgMsg", "エラー: " + data.description, true);
+        }
+      } catch(e) {
+        showMsg("tgMsg", "送信失敗: ネットワークエラー", true);
+      }
+    }    
   </script>
 </body>
 </html>
