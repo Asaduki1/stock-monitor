@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>株価モニター</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0f0f0f; color: #eee; font-family: sans-serif; padding: 16px; }
+    h1 { font-size: 1.2rem; margin-bottom: 4px; color: #fff; }
+    .updated { font-size: 0.75rem; color: #888; margin-bottom: 16px; }
+    .card { background: #1a1a1a; border-radius: 12px; padding: 16px; margin-bottom: 12px; border-left: 4px solid #444; }
+    .card.BUY { border-left-color: #00e676; }
+    .card.WAIT { border-left-color: #444; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .name { font-size: 1rem; font-weight: bold; }
+    .code { font-size: 0.75rem; color: #888; }
+    .signal { font-size: 0.85rem; font-weight: bold; padding: 4px 10px; border-radius: 20px; }
+    .signal.BUY { background: #00e676; color: #000; }
+    .signal.WAIT { background: #333; color: #aaa; }
+    .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .metric { background: #111; border-radius: 8px; padding: 8px 10px; }
+    .metric-label { font-size: 0.7rem; color: #888; margin-bottom: 2px; }
+    .metric-value { font-size: 1rem; font-weight: bold; }
+    .metric-value.green { color: #00e676; }
+    .metric-value.red { color: #ff5252; }
+    .metric-value.yellow { color: #ffd740; }
+  </style>
+</head>
+<body>
+  <h1>📈 株価モニター</h1>
+  <div class="updated" id="updated">読み込み中...</div>
+  <div id="cards"></div>
+
+  <script>
+    const RESULT_URL = "./data/result.json";
+
+    function getColorClass(key, value) {
+      if (key === "rsi") {
+        if (value <= 35) return "green";
+        if (value >= 70) return "red";
+        return "";
+      }
+      if (key === "divergence") {
+        if (value <= -10) return "green";
+        if (value >= 10) return "red";
+        return "";
+      }
+      if (key === "yield") return value >= 4.5 ? "green" : "";
+      return "";
+    }
+
+    function renderCards(data) {
+      const container = document.getElementById("cards");
+      container.innerHTML = "";
+      data.forEach(s => {
+        const card = document.createElement("div");
+        card.className = `card ${s.signal}`;
+        card.innerHTML = `
+          <div class="card-header">
+            <div>
+              <div class="name">${s.name}</div>
+              <div class="code">${s.code}</div>
+            </div>
+            <div class="signal ${s.signal}">${s.signal}</div>
+          </div>
+          <div class="metrics">
+            <div class="metric">
+              <div class="metric-label">株価</div>
+              <div class="metric-value">¥${s.price}</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">配当利回り</div>
+              <div class="metric-value ${getColorClass('yield', s.yield)}">${s.yield}%</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">RSI</div>
+              <div class="metric-value ${getColorClass('rsi', s.rsi)}">${s.rsi}</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">乖離率</div>
+              <div class="metric-value ${getColorClass('divergence', s.divergence)}">${s.divergence}%</div>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+      document.getElementById("updated").textContent = `最終更新: ${data[0]?.updated ?? "不明"}`;
+    }
+
+    fetch(RESULT_URL)
+      .then(r => r.json())
+      .then(renderCards)
+      .catch(() => {
+        document.getElementById("updated").textContent = "データ取得失敗";
+      });
+  </script>
+</body>
+</html>
