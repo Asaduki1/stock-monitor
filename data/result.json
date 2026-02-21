@@ -1,0 +1,24 @@
+[
+  {
+    "code": "9432",
+    "name": "NTT",
+    "price": 151.0,
+    "ma25": 154.9,
+    "divergence": -2.52,
+    "rsi": 36.0,
+    "yield": 79.47,
+    "signal": "WAIT",
+    "updated": "2026-02-21 10:04"
+  },
+  {
+    "code": "8058",
+    "name": "三菱商事",
+    "price": 4991.0,
+    "ma25": 4461.1,
+    "divergence": 11.88,
+    "rsi": 80.3,
+    "yield": 2.0,
+    "signal": "WAIT",
+    "updated": "2026-02-21 10:04"
+  }
+]
