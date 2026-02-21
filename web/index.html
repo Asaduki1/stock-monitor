@@ -4,94 +4,381 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>株価モニター</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: #080c10;
+      --surface: #0d1117;
+      --border: #1e2a38;
+      --accent: #00ffe0;
+      --buy: #00ffe0;
+      --wait: #3a4a5a;
+      --red: #ff4d6d;
+      --yellow: #ffd166;
+      --text: #c9d6e3;
+      --text-dim: #4a6278;
+      --mono: 'Share Tech Mono', monospace;
+      --sans: 'Noto Sans JP', sans-serif;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #0f0f0f; color: #eee; font-family: sans-serif; padding: 16px; }
-    h1 { font-size: 1.2rem; margin-bottom: 4px; color: #fff; }
-    .updated { font-size: 0.75rem; color: #888; margin-bottom: 16px; }
-    .card { background: #1a1a1a; border-radius: 12px; padding: 16px; margin-bottom: 12px; border-left: 4px solid #444; }
-    .card.BUY { border-left-color: #00e676; }
-    .card.WAIT { border-left-color: #444; }
-    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .name { font-size: 1rem; font-weight: bold; }
-    .code { font-size: 0.75rem; color: #888; }
-    .signal { font-size: 0.85rem; font-weight: bold; padding: 4px 10px; border-radius: 20px; }
-    .signal.BUY { background: #00e676; color: #000; }
-    .signal.WAIT { background: #333; color: #aaa; }
-    .metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .metric { background: #111; border-radius: 8px; padding: 8px 10px; }
-    .metric-label { font-size: 0.7rem; color: #888; margin-bottom: 2px; }
-    .metric-value { font-size: 1rem; font-weight: bold; }
-    .metric-value.green { color: #00e676; }
-    .metric-value.red { color: #ff5252; }
-    .add-form { background: #1a1a1a; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
-    .add-form h2 { font-size: 0.95rem; margin-bottom: 12px; color: #aaa; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-    input { background: #111; border: 1px solid #333; border-radius: 8px; padding: 8px 10px; color: #eee; font-size: 0.9rem; width: 100%; }
-    button { background: #00e676; color: #000; border: none; border-radius: 8px; padding: 10px; font-size: 0.9rem; font-weight: bold; width: 100%; cursor: pointer; margin-top: 4px; }
-    button.secondary { background: #333; color: #aaa; margin-top: 8px; }
-    .token-section { background: #1a1a1a; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
-    .token-section h2 { font-size: 0.95rem; margin-bottom: 12px; color: #aaa; }
-    .msg { font-size: 0.8rem; margin-top: 8px; color: #00e676; min-height: 1.2em; }
-    .msg.error { color: #ff5252; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      min-height: 100vh;
+      padding: 20px 16px;
+    }
+
+    /* ヘッダー */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    .header-left h1 {
+      font-family: var(--mono);
+      font-size: 1.1rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .header-left .subtitle {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+      font-family: var(--mono);
+    }
+
+    .updated {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    /* BUYバナー */
+    .buy-banner {
+      display: none;
+      background: rgba(0, 255, 224, 0.06);
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-family: var(--mono);
+    }
+    .buy-banner.show { display: block; }
+
+    /* テーブル */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+
+    thead tr {
+      background: #0d1117;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      padding: 10px 14px;
+      text-align: right;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    th:first-child, th:nth-child(2) { text-align: left; }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(255,255,255,0.03); }
+    tbody tr.is-buy { background: rgba(0, 255, 224, 0.04); }
+
+    td {
+      padding: 12px 14px;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    td:first-child { text-align: left; }
+    td:nth-child(2) { text-align: left; }
+
+    .code {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .name {
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .price {
+      font-family: var(--mono);
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: #e8f4ff;
+    }
+
+    .signal-badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      font-weight: bold;
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.08em;
+    }
+
+    .signal-badge.BUY {
+      background: rgba(0, 255, 224, 0.15);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      animation: pulse 2s infinite;
+    }
+
+    .signal-badge.WAIT {
+      background: rgba(255,255,255,0.04);
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0,255,224,0.3); }
+      50% { box-shadow: 0 0 8px 2px rgba(0,255,224,0.15); }
+    }
+
+    .green { color: var(--buy); }
+    .red { color: var(--red); }
+    .yellow { color: var(--yellow); }
+
+    /* 銘柄追加フォーム */
+    .add-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    input {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      color: var(--text);
+      font-size: 0.82rem;
+      font-family: var(--sans);
+      width: 100%;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus { border-color: var(--accent); }
+    input::placeholder { color: var(--text-dim); }
+
+    .btn {
+      background: rgba(0, 255, 224, 0.1);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      border-radius: 6px;
+      padding: 9px 16px;
+      font-size: 0.82rem;
+      font-family: var(--mono);
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s;
+      letter-spacing: 0.05em;
+    }
+
+    .btn:hover { background: rgba(0, 255, 224, 0.18); }
+
+    .msg {
+      font-size: 0.75rem;
+      margin-top: 8px;
+      font-family: var(--mono);
+      color: var(--accent);
+      min-height: 1.2em;
+    }
+
+    .msg.error { color: var(--red); }
+
+    /* トークン設定 */
+    .token-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .token-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .token-row input { flex: 1; }
+    .token-row .btn { width: auto; white-space: nowrap; }
+
+    /* ローディング */
+    .loading {
+      text-align: center;
+      padding: 40px;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+    }
   </style>
 </head>
 <body>
-  <h1>📈 株価モニター</h1>
-  <div class="updated" id="updated">読み込み中...</div>
+
+  <div class="header">
+    <div class="header-left">
+      <h1>▸ STOCK MONITOR</h1>
+      <div class="subtitle">AUTO UPDATE / 15MIN</div>
+    </div>
+    <div class="updated" id="updated">--:--</div>
+  </div>
+
+  <!-- BUYバナー -->
+  <div class="buy-banner" id="buyBanner"></div>
+
+  <!-- テーブル -->
+  <div class="table-wrap">
+    <div class="loading" id="loading">LOADING...</div>
+    <table id="stockTable" style="display:none">
+      <thead>
+        <tr>
+          <th>CODE</th>
+          <th>銘柄</th>
+          <th>株価</th>
+          <th>利回り</th>
+          <th>RSI</th>
+          <th>乖離率</th>
+          <th>SIGNAL</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
 
   <!-- トークン設定 -->
   <div class="token-section" id="tokenSection">
-    <h2>🔑 GitHub トークン設定（初回のみ）</h2>
-    <input type="password" id="tokenInput" placeholder="ghp_xxxx...">
-    <button onclick="saveToken()">保存する</button>
+    <div class="section-title">🔑 GitHub Token（初回のみ）</div>
+    <div class="token-row">
+      <input type="password" id="tokenInput" placeholder="ghp_xxxx...">
+      <button class="btn" onclick="saveToken()">SAVE</button>
+    </div>
     <div class="msg" id="tokenMsg"></div>
   </div>
 
-  <!-- 銘柄追加フォーム -->
-  <div class="add-form">
-    <h2>➕ 銘柄を追加</h2>
-    <div class="form-row">
-      <input type="text" id="newCode" placeholder="証券コード（例: 7203）">
-      <input type="text" id="newName" placeholder="銘柄名（例: トヨタ）">
-    </div>
-    <div class="form-row">
+  <!-- 銘柄追加 -->
+  <div class="add-section">
+    <div class="section-title">＋ 銘柄を追加</div>
+    <div class="form-grid">
+      <input type="text" id="newCode" placeholder="証券コード（例: 8306）">
+      <input type="text" id="newName" placeholder="銘柄名（例: 三菱UFJ）">
       <input type="number" id="newDividend" placeholder="年間配当（円）">
-      <input type="number" id="newAvgYield" placeholder="平均利回り（例: 3.2）" step="0.1">
+      <input type="number" id="newAvgYield" placeholder="平均利回り（例: 3.5）" step="0.1">
     </div>
-    <button onclick="addStock()">追加する</button>
+    <button class="btn" onclick="addStock()">ADD STOCK</button>
     <div class="msg" id="addMsg"></div>
   </div>
 
-  <div id="cards"></div>
-
   <script>
     const RESULT_URL = "https://raw.githubusercontent.com/Asaduki1/stock-monitor/main/data/result.json";
-    const MASTER_URL = "https://raw.githubusercontent.com/Asaduki1/stock-monitor/main/data/master.json";
     const REPO = "Asaduki1/stock-monitor";
 
-    // トークン管理
     function saveToken() {
       const t = document.getElementById("tokenInput").value.trim();
       if (!t) return;
       localStorage.setItem("gh_token", t);
-      document.getElementById("tokenMsg").textContent = "✅ 保存しました";
+      document.getElementById("tokenMsg").textContent = "✓ SAVED";
       document.getElementById("tokenInput").value = "";
-      setTimeout(() => {
-        document.getElementById("tokenSection").style.display = "none";
-      }, 1000);
+      setTimeout(() => { document.getElementById("tokenSection").style.display = "none"; }, 800);
     }
 
-    function getToken() {
-      return localStorage.getItem("gh_token");
+    function getToken() { return localStorage.getItem("gh_token"); }
+    if (getToken()) document.getElementById("tokenSection").style.display = "none";
+
+    function colorClass(key, value) {
+      if (key === "rsi") return value <= 35 ? "green" : value >= 70 ? "red" : "";
+      if (key === "divergence") return value <= -10 ? "green" : value >= 10 ? "red" : "";
+      if (key === "yield") return value >= 4.5 ? "green" : "";
+      return "";
     }
 
-    // 初回表示：トークンがあれば隠す
-    if (getToken()) {
-      document.getElementById("tokenSection").style.display = "none";
+    function renderTable(data) {
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("stockTable").style.display = "table";
+
+      const buys = data.filter(s => s.signal === "BUY");
+      if (buys.length > 0) {
+        const banner = document.getElementById("buyBanner");
+        banner.classList.add("show");
+        banner.textContent = "🟢 BUYシグナル: " + buys.map(s => `${s.name}(${s.code})`).join(" / ");
+      }
+
+      const tbody = document.getElementById("tableBody");
+      tbody.innerHTML = "";
+      data.forEach(s => {
+        const tr = document.createElement("tr");
+        if (s.signal === "BUY") tr.classList.add("is-buy");
+        tr.innerHTML = `
+          <td><span class="code">${s.code}</span></td>
+          <td><span class="name">${s.name}</span></td>
+          <td><span class="price">¥${s.price.toLocaleString()}</span></td>
+          <td class="${colorClass('yield', s.yield)}">${s.yield}%</td>
+          <td class="${colorClass('rsi', s.rsi)}">${s.rsi}</td>
+          <td class="${colorClass('divergence', s.divergence)}">${s.divergence}%</td>
+          <td><span class="signal-badge ${s.signal}">${s.signal}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById("updated").textContent = "UPD " + (data[0]?.updated ?? "--");
     }
 
-    // 銘柄追加
     async function addStock() {
       const token = getToken();
       if (!token) {
@@ -99,127 +386,51 @@
         document.getElementById("tokenSection").style.display = "block";
         return;
       }
-
       const code = document.getElementById("newCode").value.trim();
       const name = document.getElementById("newName").value.trim();
       const dividend = parseFloat(document.getElementById("newDividend").value);
       const avgYield = parseFloat(document.getElementById("newAvgYield").value);
-
       if (!code || !name || isNaN(dividend) || isNaN(avgYield)) {
-        showMsg("addMsg", "全項目を入力してください", true);
-        return;
+        showMsg("addMsg", "全項目を入力してください", true); return;
       }
-
-      showMsg("addMsg", "追加中...");
-
+      showMsg("addMsg", "ADDING...");
       try {
-        // 現在のmaster.jsonを取得
         const res = await fetch(`https://api.github.com/repos/${REPO}/contents/data/master.json`, {
           headers: { Authorization: `token ${token}` }
         });
         const fileData = await res.json();
         const current = JSON.parse(atob(fileData.content));
-
-        // 重複チェック
         if (current.find(s => s.code === code)) {
-          showMsg("addMsg", "その証券コードはすでに登録されています", true);
-          return;
+          showMsg("addMsg", "すでに登録済みのコードです", true); return;
         }
-
-        // 新しい銘柄を追加
         current.push({ code, name, dividend, avg_yield: avgYield });
-
-        // GitHubに書き込み
         await fetch(`https://api.github.com/repos/${REPO}/contents/data/master.json`, {
           method: "PUT",
-          headers: {
-            Authorization: `token ${token}`,
-            "Content-Type": "application/json"
-          },
+          headers: { Authorization: `token ${token}`, "Content-Type": "application/json" },
           body: JSON.stringify({
-            message: `add stock: ${name}(${code})`,
+            message: `add: ${name}(${code})`,
             content: btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(current, null, 2)))),
             sha: fileData.sha
           })
         });
-
-        showMsg("addMsg", `✅ ${name}を追加しました！次回の自動実行で反映されます`);
-        document.getElementById("newCode").value = "";
-        document.getElementById("newName").value = "";
-        document.getElementById("newDividend").value = "";
-        document.getElementById("newAvgYield").value = "";
-
-      } catch (e) {
-        showMsg("addMsg", "エラーが発生しました。トークンを確認してください", true);
+        showMsg("addMsg", `✓ ${name} を追加しました`);
+        ["newCode","newName","newDividend","newAvgYield"].forEach(id => document.getElementById(id).value = "");
+      } catch(e) {
+        showMsg("addMsg", "エラー: トークンを確認してください", true);
       }
     }
 
-    function showMsg(id, text, isError = false) {
+    function showMsg(id, text, isError=false) {
       const el = document.getElementById(id);
       el.textContent = text;
       el.className = "msg" + (isError ? " error" : "");
     }
 
-    // カード表示
-    function getColorClass(key, value) {
-      if (key === "rsi") {
-        if (value <= 35) return "green";
-        if (value >= 70) return "red";
-        return "";
-      }
-      if (key === "divergence") {
-        if (value <= -10) return "green";
-        if (value >= 10) return "red";
-        return "";
-      }
-      if (key === "yield") return value >= 4.5 ? "green" : "";
-      return "";
-    }
-
-    function renderCards(data) {
-      const container = document.getElementById("cards");
-      container.innerHTML = "";
-      data.forEach(s => {
-        const card = document.createElement("div");
-        card.className = `card ${s.signal}`;
-        card.innerHTML = `
-          <div class="card-header">
-            <div>
-              <div class="name">${s.name}</div>
-              <div class="code">${s.code}</div>
-            </div>
-            <div class="signal ${s.signal}">${s.signal}</div>
-          </div>
-          <div class="metrics">
-            <div class="metric">
-              <div class="metric-label">株価</div>
-              <div class="metric-value">¥${s.price}</div>
-            </div>
-            <div class="metric">
-              <div class="metric-label">配当利回り</div>
-              <div class="metric-value ${getColorClass('yield', s.yield)}">${s.yield}%</div>
-            </div>
-            <div class="metric">
-              <div class="metric-label">RSI</div>
-              <div class="metric-value ${getColorClass('rsi', s.rsi)}">${s.rsi}</div>
-            </div>
-            <div class="metric">
-              <div class="metric-label">乖離率</div>
-              <div class="metric-value ${getColorClass('divergence', s.divergence)}">${s.divergence}%</div>
-            </div>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-      document.getElementById("updated").textContent = `最終更新: ${data[0]?.updated ?? "不明"}`;
-    }
-
-    fetch(RESULT_URL)
+    fetch(RESULT_URL + "?t=" + Date.now())
       .then(r => r.json())
-      .then(renderCards)
+      .then(renderTable)
       .catch(() => {
-        document.getElementById("updated").textContent = "データ取得失敗";
+        document.getElementById("loading").textContent = "DATA LOAD FAILED";
       });
   </script>
 </body>
-</html>
