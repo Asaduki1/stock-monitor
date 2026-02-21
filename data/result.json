@@ -8,28 +8,61 @@
     "rsi": 36.0,
     "yield": 3.18,
     "signal": "WAIT",
-    "updated": "2026-02-21 11:56"
+    "updated": "2026-02-21 13:05"
   },
   {
     "code": "8058",
-    "name": "三菱商事",
+    "name": "ÃÂ¤ÃÂ¸ÃÂÃÂ¨ÃÂÃÂ±ÃÂ¥ÃÂÃÂÃÂ¤ÃÂºÃÂ",
     "price": 4991.0,
     "ma25": 4461.1,
     "divergence": 11.88,
     "rsi": 80.3,
     "yield": 2.0,
     "signal": "WAIT",
-    "updated": "2026-02-21 11:56"
+    "updated": "2026-02-21 13:05"
   },
   {
     "code": "7203",
-    "name": "トヨタ",
+    "name": "ÃÂ£ÃÂÃÂÃÂ£ÃÂÃÂ¨ÃÂ£ÃÂÃÂ¿",
     "price": 3635.0,
     "ma25": 3624.4,
     "divergence": 0.29,
     "rsi": 58.1,
     "yield": 2.06,
     "signal": "WAIT",
-    "updated": "2026-02-21 11:56"
+    "updated": "2026-02-21 13:05"
+  },
+  {
+    "code": "2914",
+    "name": "JT",
+    "price": 5893.0,
+    "ma25": 5829.3,
+    "divergence": 1.09,
+    "rsi": 63.6,
+    "yield": 4.11,
+    "signal": "WAIT",
+    "updated": "2026-02-21 13:05"
+  },
+  {
+    "code": "8306",
+    "name": "Mitsubishi UFJ Financial Group, Inc.",
+    "price": 2942.0,
+    "ma25": 2894.8,
+    "divergence": 1.63,
+    "rsi": 57.2,
+    "yield": 2.65,
+    "signal": "WAIT",
+    "updated": "2026-02-21 13:05"
+  },
+  {
+    "code": "7974",
+    "name": "Nintendo Co., Ltd.",
+    "price": 8587.0,
+    "ma25": 9459.1,
+    "divergence": -9.22,
+    "rsi": 28.8,
+    "yield": 2.11,
+    "signal": "WAIT",
+    "updated": "2026-02-21 13:05"
   }
 ]
