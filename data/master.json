@@ -36,12 +36,21 @@
     "avg_yield": 211
   },
   {
-    "code": "2502"
+    "code": "2502",
+    "name": "ASAHI GROUP HLDGS",
+    "dividend": 52.0,
+    "avg_yield": 304.0
   },
   {
-    "code": "4064"
+    "code": "4064",
+    "name": "NIPPON CARBIDE INDUSTRIES CO IN",
+    "dividend": 102.0,
+    "avg_yield": 340.0
   },
   {
-    "code": "5406"
+    "code": "5406",
+    "name": "KOBE STEEL",
+    "dividend": 80.0,
+    "avg_yield": 350.0
   }
 ]

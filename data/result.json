@@ -8,29 +8,29 @@
     "rsi": 36.0,
     "yield": 3.18,
     "signal": "WAIT",
-    "updated": "2026-02-21 15:20"
+    "updated": "2026-02-21 15:36"
   },
   {
     "code": "8058",
-    "name": "三菱商事",
+    "name": "ÃÂ¤ÃÂ¸ÃÂÃÂ¨ÃÂÃÂ±ÃÂ¥ÃÂÃÂÃÂ¤ÃÂºÃÂ",
     "price": 4991.0,
     "ma25": 4461.1,
     "divergence": 11.88,
     "rsi": 80.3,
     "yield": 2.0,
     "signal": "WAIT",
-    "updated": "2026-02-21 15:20"
+    "updated": "2026-02-21 15:36"
   },
   {
     "code": "7203",
-    "name": "トヨタ",
+    "name": "ÃÂ£ÃÂÃÂÃÂ£ÃÂÃÂ¨ÃÂ£ÃÂÃÂ¿",
     "price": 3635.0,
     "ma25": 3624.4,
     "divergence": 0.29,
     "rsi": 58.1,
     "yield": 2.06,
     "signal": "WAIT",
-    "updated": "2026-02-21 15:20"
+    "updated": "2026-02-21 15:36"
   },
   {
     "code": "2914",
@@ -41,7 +41,7 @@
     "rsi": 63.6,
     "yield": 4.11,
     "signal": "WAIT",
-    "updated": "2026-02-21 15:20"
+    "updated": "2026-02-21 15:36"
   },
   {
     "code": "8306",
@@ -52,7 +52,7 @@
     "rsi": 57.2,
     "yield": 2.65,
     "signal": "WAIT",
-    "updated": "2026-02-21 15:20"
+    "updated": "2026-02-21 15:36"
   },
   {
     "code": "7974",
@@ -63,6 +63,39 @@
     "rsi": 28.8,
     "yield": 2.11,
     "signal": "WAIT",
-    "updated": "2026-02-21 15:20"
+    "updated": "2026-02-21 15:36"
+  },
+  {
+    "code": "2502",
+    "name": "ASAHI GROUP HLDGS",
+    "price": 1708.5,
+    "ma25": 1667.1,
+    "divergence": 2.48,
+    "rsi": 66.4,
+    "yield": 3.04,
+    "signal": "WAIT",
+    "updated": "2026-02-21 15:36"
+  },
+  {
+    "code": "4064",
+    "name": "NIPPON CARBIDE INDUSTRIES CO IN",
+    "price": 3000.0,
+    "ma25": 2800.7,
+    "divergence": 7.12,
+    "rsi": 72.4,
+    "yield": 3.4,
+    "signal": "WAIT",
+    "updated": "2026-02-21 15:36"
+  },
+  {
+    "code": "5406",
+    "name": "KOBE STEEL",
+    "price": 2287.0,
+    "ma25": 2275.2,
+    "divergence": 0.52,
+    "rsi": 56.2,
+    "yield": 3.5,
+    "signal": "WAIT",
+    "updated": "2026-02-21 15:36"
   }
 ]
