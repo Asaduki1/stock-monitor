@@ -7,14 +7,20 @@
   },
   {
     "code": "8058",
-    "name": "三菱商事",
+    "name": "ä¸è±åäº",
     "dividend": 100,
     "avg_yield": 3.2
   },
   {
     "code": "7203",
-    "name": "トヨタ",
+    "name": "ãã¨ã¿",
     "dividend": 75,
     "avg_yield": 3
+  },
+  {
+    "code": "2914",
+    "name": "JT",
+    "dividend": 242,
+    "avg_yield": 3.9
   }
 ]
