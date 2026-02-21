@@ -267,7 +267,10 @@
           <td><span class="signal-badge PENDING">PENDING</span></td>
         `;
         tbody.appendChild(tr);
-
+        
+        document.getElementById("stockTable").style.display = "table";
+        document.getElementById("loading").style.display = "none";
+        
       } catch(e) {
         showMsg("addMsg", "エラー: トークンを確認してください", true);
       }
@@ -279,12 +282,21 @@
       el.className = "msg" + (isError ? " error" : "");
     }
 
-    fetch(RESULT_URL + "?t=" + Date.now())
-      .then(r => r.json())
-      .then(renderTable)
-      .catch(() => {
-        document.getElementById("loading").textContent = "DATA LOAD FAILED";
-      });
+    let currentData = [];
+
+    function loadData() {
+      fetch(RESULT_URL + "?t=" + Date.now())
+        .then(r => r.json())
+        .then(data => {
+          currentData = data;
+          renderTable(data);
+        })
+        .catch(() => {
+          document.getElementById("loading").textContent = "DATA LOAD FAILED";
+        });
+    }
+
+    loadData();
   </script>
 </body>
 </html>
