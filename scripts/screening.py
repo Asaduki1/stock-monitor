@@ -50,9 +50,10 @@ def score_stock(code):
         score = 0
         conditions = {}
 
-        # 1. 配当利回り3%以上
+        # 1. 配当利回り3%以上（yfinanceは小数で返すので100倍不要な場合がある）
         div_yield = info.get("dividendYield", 0) or 0
-        div_yield_pct = round(div_yield * 100, 2)
+        # 1より大きい場合はすでに%表記なのでそのまま使う
+        div_yield_pct = round(div_yield if div_yield > 1 else div_yield * 100, 2)
         conditions["利回り3%以上"] = div_yield_pct >= 3.0
         if conditions["利回り3%以上"]: score += 1
 
@@ -86,6 +87,15 @@ def score_stock(code):
             divergence200 = None
             conditions["200MA接近"] = False
         if conditions["200MA接近"]: score += 1
+
+        # 最低条件チェック（利回り3%以上 AND 配当性向30%以下 AND PBR1倍割れ）
+        min_conditions = (
+            conditions["利回り3%以上"] and
+            conditions["配当性向30%以下"] and
+            conditions["PBR1倍割れ"]
+        )
+        if not min_conditions:
+            return None
 
         # スコア判定
         if score >= 5:
