@@ -20,254 +20,55 @@
       --mono: 'Share Tech Mono', monospace;
       --sans: 'Noto Sans JP', sans-serif;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      min-height: 100vh;
-      padding: 20px 16px;
-    }
-
-    /* ヘッダー */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 24px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 12px;
-    }
-
-    .header-left h1 {
-      font-family: var(--mono);
-      font-size: 1.1rem;
-      color: var(--accent);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    .header-left .subtitle {
-      font-size: 0.7rem;
-      color: var(--text-dim);
-      margin-top: 2px;
-      font-family: var(--mono);
-    }
-
-    .updated {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--text-dim);
-    }
-
-    /* BUYバナー */
-    .buy-banner {
-      display: none;
-      background: rgba(0, 255, 224, 0.06);
-      border: 1px solid var(--accent);
-      border-radius: 6px;
-      padding: 10px 14px;
-      margin-bottom: 16px;
-      font-size: 0.8rem;
-      color: var(--accent);
-      font-family: var(--mono);
-    }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; padding: 20px 16px; }
+    .header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+    .header-left h1 { font-family: var(--mono); font-size: 1.1rem; color: var(--accent); letter-spacing: 0.1em; }
+    .header-left .subtitle { font-size: 0.7rem; color: var(--text-dim); margin-top: 2px; font-family: var(--mono); }
+    .updated { font-family: var(--mono); font-size: 0.7rem; color: var(--text-dim); }
+    .buy-banner { display: none; background: rgba(0,255,224,0.06); border: 1px solid var(--accent); border-radius: 6px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.8rem; color: var(--accent); font-family: var(--mono); }
     .buy-banner.show { display: block; }
-
-    /* テーブル */
-    .table-wrap {
-      overflow-x: auto;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      margin-bottom: 24px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.82rem;
-    }
-
-    thead tr {
-      background: #0d1117;
-      border-bottom: 1px solid var(--border);
-    }
-
-    th {
-      padding: 10px 14px;
-      text-align: right;
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      color: var(--text-dim);
-      letter-spacing: 0.08em;
-      white-space: nowrap;
-    }
-
+    .table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 24px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    thead tr { background: #0d1117; border-bottom: 1px solid var(--border); }
+    th { padding: 10px 14px; text-align: right; font-family: var(--mono); font-size: 0.68rem; color: var(--text-dim); letter-spacing: 0.08em; white-space: nowrap; }
     th:first-child, th:nth-child(2) { text-align: left; }
-
-    tbody tr {
-      border-bottom: 1px solid var(--border);
-      transition: background 0.15s;
-    }
-
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
     tbody tr:last-child { border-bottom: none; }
     tbody tr:hover { background: rgba(255,255,255,0.03); }
-    tbody tr.is-buy { background: rgba(0, 255, 224, 0.04); }
-
-    td {
-      padding: 12px 14px;
-      text-align: right;
-      white-space: nowrap;
-    }
-
+    tbody tr.is-buy { background: rgba(0,255,224,0.04); }
+    tbody tr.is-pending { opacity: 0.5; }
+    td { padding: 12px 14px; text-align: right; white-space: nowrap; }
     td:first-child { text-align: left; }
     td:nth-child(2) { text-align: left; }
-
-    .code {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--text-dim);
-    }
-
-    .name {
-      font-weight: 700;
-      font-size: 0.85rem;
-    }
-
-    .price {
-      font-family: var(--mono);
-      font-size: 0.95rem;
-      font-weight: bold;
-      color: #e8f4ff;
-    }
-
-    .signal-badge {
-      display: inline-block;
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      font-weight: bold;
-      padding: 3px 10px;
-      border-radius: 20px;
-      letter-spacing: 0.08em;
-    }
-
-    .signal-badge.BUY {
-      background: rgba(0, 255, 224, 0.15);
-      color: var(--accent);
-      border: 1px solid var(--accent);
-      animation: pulse 2s infinite;
-    }
-
-    .signal-badge.WAIT {
-      background: rgba(255,255,255,0.04);
-      color: var(--text-dim);
-      border: 1px solid var(--border);
-    }
-
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(0,255,224,0.3); }
-      50% { box-shadow: 0 0 8px 2px rgba(0,255,224,0.15); }
-    }
-
+    .code { font-family: var(--mono); font-size: 0.75rem; color: var(--text-dim); }
+    .name { font-weight: 700; font-size: 0.85rem; }
+    .name.pending { color: var(--text-dim); font-weight: normal; font-style: italic; }
+    .price { font-family: var(--mono); font-size: 0.95rem; font-weight: bold; color: #e8f4ff; }
+    .signal-badge { display: inline-block; font-family: var(--mono); font-size: 0.68rem; font-weight: bold; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.08em; }
+    .signal-badge.BUY { background: rgba(0,255,224,0.15); color: var(--accent); border: 1px solid var(--accent); animation: pulse 2s infinite; }
+    .signal-badge.WAIT { background: rgba(255,255,255,0.04); color: var(--text-dim); border: 1px solid var(--border); }
+    .signal-badge.PENDING { background: rgba(255,209,102,0.1); color: var(--yellow); border: 1px solid var(--yellow); font-size: 0.62rem; }
+    @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(0,255,224,0.3)}50%{box-shadow:0 0 8px 2px rgba(0,255,224,0.15)} }
     .green { color: var(--buy); }
     .red { color: var(--red); }
     .yellow { color: var(--yellow); }
-
-    /* 銘柄追加フォーム */
-    .add-section {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-
-    .section-title {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--text-dim);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
-    input {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 8px 12px;
-      color: var(--text);
-      font-size: 0.82rem;
-      font-family: var(--sans);
-      width: 100%;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
+    .add-section { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    .section-title { font-family: var(--mono); font-size: 0.72rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+    .input-row { display: flex; gap: 8px; margin-bottom: 8px; }
+    input { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; color: var(--text); font-size: 0.82rem; font-family: var(--sans); width: 100%; outline: none; transition: border-color 0.2s; }
     input:focus { border-color: var(--accent); }
     input::placeholder { color: var(--text-dim); }
-
-    .btn {
-      background: rgba(0, 255, 224, 0.1);
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      border-radius: 6px;
-      padding: 9px 16px;
-      font-size: 0.82rem;
-      font-family: var(--mono);
-      cursor: pointer;
-      width: 100%;
-      transition: background 0.2s;
-      letter-spacing: 0.05em;
-    }
-
-    .btn:hover { background: rgba(0, 255, 224, 0.18); }
-
-    .msg {
-      font-size: 0.75rem;
-      margin-top: 8px;
-      font-family: var(--mono);
-      color: var(--accent);
-      min-height: 1.2em;
-    }
-
+    .btn { background: rgba(0,255,224,0.1); border: 1px solid var(--accent); color: var(--accent); border-radius: 6px; padding: 9px 16px; font-size: 0.82rem; font-family: var(--mono); cursor: pointer; width: 100%; transition: background 0.2s; letter-spacing: 0.05em; }
+    .btn:hover { background: rgba(0,255,224,0.18); }
+    .hint { font-size: 0.7rem; color: var(--text-dim); font-family: var(--mono); margin-bottom: 8px; }
+    .msg { font-size: 0.75rem; margin-top: 8px; font-family: var(--mono); color: var(--accent); min-height: 1.2em; }
     .msg.error { color: var(--red); }
-
-    /* トークン設定 */
-    .token-section {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-
-    .token-row {
-      display: flex;
-      gap: 8px;
-    }
-
+    .token-section { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    .token-row { display: flex; gap: 8px; }
     .token-row input { flex: 1; }
     .token-row .btn { width: auto; white-space: nowrap; }
-
-    /* ローディング */
-    .loading {
-      text-align: center;
-      padding: 40px;
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      color: var(--text-dim);
-      letter-spacing: 0.1em;
-    }
+    .loading { text-align: center; padding: 40px; font-family: var(--mono); font-size: 0.8rem; color: var(--text-dim); letter-spacing: 0.1em; }
   </style>
 </head>
 <body>
@@ -280,10 +81,8 @@
     <div class="updated" id="updated">--:--</div>
   </div>
 
-  <!-- BUYバナー -->
   <div class="buy-banner" id="buyBanner"></div>
 
-  <!-- テーブル -->
   <div class="table-wrap">
     <div class="loading" id="loading">LOADING...</div>
     <table id="stockTable" style="display:none">
@@ -302,7 +101,6 @@
     </table>
   </div>
 
-  <!-- トークン設定 -->
   <div class="token-section" id="tokenSection">
     <div class="section-title">🔑 GitHub Token（初回のみ）</div>
     <div class="token-row">
@@ -312,22 +110,29 @@
     <div class="msg" id="tokenMsg"></div>
   </div>
 
-  <!-- 銘柄追加 -->
   <div class="add-section">
     <div class="section-title">＋ 銘柄を追加</div>
-    <div style="display:flex; gap:8px; margin-bottom:10px;">
-      <input type="text" id="newCode" placeholder="証券コードを入力（例: 8306）" style="flex:1;">
+    <div class="input-row">
+      <input type="text" id="newCode" placeholder="証券コードを入力（例: 8306）">
+      <button class="btn" style="width:auto;white-space:nowrap;" onclick="addStock()">ADD</button>
     </div>
-    <div class="msg" style="color:var(--text-dim); font-size:0.72rem; margin-bottom:8px;">
-      ※ 銘柄名・配当・利回りは次回の自動実行時に自動取得されます
-    </div>
-    <button class="btn" onclick="addStock()">ADD STOCK</button>
+    <div class="hint">※ 銘柄名・配当・利回りは次回自動実行時に取得されます</div>
     <div class="msg" id="addMsg"></div>
   </div>
 
   <script>
     const RESULT_URL = "https://raw.githubusercontent.com/Asaduki1/stock-monitor/main/data/result.json";
     const REPO = "Asaduki1/stock-monitor";
+
+    // ローカルに保存している仮表示銘柄
+    const PENDING_KEY = "pending_stocks";
+
+    function getPending() {
+      try { return JSON.parse(localStorage.getItem(PENDING_KEY) || "[]"); } catch { return []; }
+    }
+    function savePending(list) {
+      localStorage.setItem(PENDING_KEY, JSON.stringify(list));
+    }
 
     function saveToken() {
       const t = document.getElementById("tokenInput").value.trim();
@@ -337,7 +142,6 @@
       document.getElementById("tokenInput").value = "";
       setTimeout(() => { document.getElementById("tokenSection").style.display = "none"; }, 800);
     }
-
     function getToken() { return localStorage.getItem("gh_token"); }
     if (getToken()) document.getElementById("tokenSection").style.display = "none";
 
@@ -352,6 +156,13 @@
       document.getElementById("loading").style.display = "none";
       document.getElementById("stockTable").style.display = "table";
 
+      // result.jsonに含まれるコードを記録
+      const liveCodes = new Set(data.map(s => s.code));
+
+      // 取得済みになったpendingは削除
+      let pending = getPending().filter(p => !liveCodes.has(p.code));
+      savePending(pending);
+
       const buys = data.filter(s => s.signal === "BUY");
       if (buys.length > 0) {
         const banner = document.getElementById("buyBanner");
@@ -361,6 +172,8 @@
 
       const tbody = document.getElementById("tableBody");
       tbody.innerHTML = "";
+
+      // 通常データ
       data.forEach(s => {
         const tr = document.createElement("tr");
         if (s.signal === "BUY") tr.classList.add("is-buy");
@@ -376,6 +189,22 @@
         tbody.appendChild(tr);
       });
 
+      // 仮表示（取得待ち）
+      pending.forEach(p => {
+        const tr = document.createElement("tr");
+        tr.classList.add("is-pending");
+        tr.innerHTML = `
+          <td><span class="code">${p.code}</span></td>
+          <td><span class="name pending">取得待ち...</span></td>
+          <td>--</td>
+          <td>--</td>
+          <td>--</td>
+          <td>--</td>
+          <td><span class="signal-badge PENDING">PENDING</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
       document.getElementById("updated").textContent = "UPD " + (data[0]?.updated ?? "--");
     }
 
@@ -387,9 +216,8 @@
         return;
       }
       const code = document.getElementById("newCode").value.trim();
-      if (!code) {
-        showMsg("addMsg", "証券コードを入力してください", true); return;
-      }
+      if (!code) { showMsg("addMsg", "証券コードを入力してください", true); return; }
+
       showMsg("addMsg", "ADDING...");
       try {
         const res = await fetch(`https://api.github.com/repos/${REPO}/contents/data/master.json`, {
@@ -397,21 +225,49 @@
         });
         const fileData = await res.json();
         const current = JSON.parse(atob(fileData.content));
+
         if (current.find(s => s.code === code)) {
           showMsg("addMsg", "すでに登録済みのコードです", true); return;
         }
+
         current.push({ code });
+
         await fetch(`https://api.github.com/repos/${REPO}/contents/data/master.json`, {
           method: "PUT",
           headers: { Authorization: `token ${token}`, "Content-Type": "application/json" },
           body: JSON.stringify({
-            message: `add: ${name}(${code})`,
+            message: `add: ${code}`,
             content: btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(current, null, 2)))),
             sha: fileData.sha
           })
         });
-        showMsg("addMsg", `✓ ${name} を追加しました`);
+
+        // 仮表示リストに追加
+        const pending = getPending();
+        if (!pending.find(p => p.code === code)) {
+          pending.push({ code });
+          savePending(pending);
+        }
+
+        showMsg("addMsg", `✓ ${code} を追加しました（次回更新で反映）`);
         document.getElementById("newCode").value = "";
+
+        // テーブルを再描画して仮表示を追加
+        const tbody = document.getElementById("tableBody");
+        const tr = document.createElement("tr");
+        tr.classList.add("is-pending");
+        tr.id = `pending-${code}`;
+        tr.innerHTML = `
+          <td><span class="code">${code}</span></td>
+          <td><span class="name pending">取得待ち...</span></td>
+          <td>--</td>
+          <td>--</td>
+          <td>--</td>
+          <td>--</td>
+          <td><span class="signal-badge PENDING">PENDING</span></td>
+        `;
+        tbody.appendChild(tr);
+
       } catch(e) {
         showMsg("addMsg", "エラー: トークンを確認してください", true);
       }
@@ -431,3 +287,4 @@
       });
   </script>
 </body>
+</html>
