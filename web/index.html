@@ -138,7 +138,7 @@
           },
           body: JSON.stringify({
             message: `add stock: ${name}(${code})`,
-            content: btoa(unescape(encodeURIComponent(JSON.stringify(current, null, 2)))),
+            content: btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(current, null, 2)))),
             sha: fileData.sha
           })
         });
