@@ -108,7 +108,7 @@ def score_stock(code):
             "ma200_div": divergence200,
             "score": score,
             "signal": signal,
-            "conditions": conditions,
+            "conditions": {k: int(v) for k, v in conditions.items()},
             "updated": datetime.now().strftime("%Y-%m-%d %H:%M")
         }
 
