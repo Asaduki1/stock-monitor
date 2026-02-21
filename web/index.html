@@ -24,17 +24,143 @@
     .metric-value { font-size: 1rem; font-weight: bold; }
     .metric-value.green { color: #00e676; }
     .metric-value.red { color: #ff5252; }
-    .metric-value.yellow { color: #ffd740; }
+    .add-form { background: #1a1a1a; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+    .add-form h2 { font-size: 0.95rem; margin-bottom: 12px; color: #aaa; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+    input { background: #111; border: 1px solid #333; border-radius: 8px; padding: 8px 10px; color: #eee; font-size: 0.9rem; width: 100%; }
+    button { background: #00e676; color: #000; border: none; border-radius: 8px; padding: 10px; font-size: 0.9rem; font-weight: bold; width: 100%; cursor: pointer; margin-top: 4px; }
+    button.secondary { background: #333; color: #aaa; margin-top: 8px; }
+    .token-section { background: #1a1a1a; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+    .token-section h2 { font-size: 0.95rem; margin-bottom: 12px; color: #aaa; }
+    .msg { font-size: 0.8rem; margin-top: 8px; color: #00e676; min-height: 1.2em; }
+    .msg.error { color: #ff5252; }
   </style>
 </head>
 <body>
   <h1>📈 株価モニター</h1>
   <div class="updated" id="updated">読み込み中...</div>
+
+  <!-- トークン設定 -->
+  <div class="token-section" id="tokenSection">
+    <h2>🔑 GitHub トークン設定（初回のみ）</h2>
+    <input type="password" id="tokenInput" placeholder="ghp_xxxx...">
+    <button onclick="saveToken()">保存する</button>
+    <div class="msg" id="tokenMsg"></div>
+  </div>
+
+  <!-- 銘柄追加フォーム -->
+  <div class="add-form">
+    <h2>➕ 銘柄を追加</h2>
+    <div class="form-row">
+      <input type="text" id="newCode" placeholder="証券コード（例: 7203）">
+      <input type="text" id="newName" placeholder="銘柄名（例: トヨタ）">
+    </div>
+    <div class="form-row">
+      <input type="number" id="newDividend" placeholder="年間配当（円）">
+      <input type="number" id="newAvgYield" placeholder="平均利回り（例: 3.2）" step="0.1">
+    </div>
+    <button onclick="addStock()">追加する</button>
+    <div class="msg" id="addMsg"></div>
+  </div>
+
   <div id="cards"></div>
 
   <script>
     const RESULT_URL = "https://raw.githubusercontent.com/Asaduki1/stock-monitor/main/data/result.json";
+    const MASTER_URL = "https://raw.githubusercontent.com/Asaduki1/stock-monitor/main/data/master.json";
+    const REPO = "Asaduki1/stock-monitor";
 
+    // トークン管理
+    function saveToken() {
+      const t = document.getElementById("tokenInput").value.trim();
+      if (!t) return;
+      localStorage.setItem("gh_token", t);
+      document.getElementById("tokenMsg").textContent = "✅ 保存しました";
+      document.getElementById("tokenInput").value = "";
+      setTimeout(() => {
+        document.getElementById("tokenSection").style.display = "none";
+      }, 1000);
+    }
+
+    function getToken() {
+      return localStorage.getItem("gh_token");
+    }
+
+    // 初回表示：トークンがあれば隠す
+    if (getToken()) {
+      document.getElementById("tokenSection").style.display = "none";
+    }
+
+    // 銘柄追加
+    async function addStock() {
+      const token = getToken();
+      if (!token) {
+        showMsg("addMsg", "先にトークンを設定してください", true);
+        document.getElementById("tokenSection").style.display = "block";
+        return;
+      }
+
+      const code = document.getElementById("newCode").value.trim();
+      const name = document.getElementById("newName").value.trim();
+      const dividend = parseFloat(document.getElementById("newDividend").value);
+      const avgYield = parseFloat(document.getElementById("newAvgYield").value);
+
+      if (!code || !name || isNaN(dividend) || isNaN(avgYield)) {
+        showMsg("addMsg", "全項目を入力してください", true);
+        return;
+      }
+
+      showMsg("addMsg", "追加中...");
+
+      try {
+        // 現在のmaster.jsonを取得
+        const res = await fetch(`https://api.github.com/repos/${REPO}/contents/data/master.json`, {
+          headers: { Authorization: `token ${token}` }
+        });
+        const fileData = await res.json();
+        const current = JSON.parse(atob(fileData.content));
+
+        // 重複チェック
+        if (current.find(s => s.code === code)) {
+          showMsg("addMsg", "その証券コードはすでに登録されています", true);
+          return;
+        }
+
+        // 新しい銘柄を追加
+        current.push({ code, name, dividend, avg_yield: avgYield });
+
+        // GitHubに書き込み
+        await fetch(`https://api.github.com/repos/${REPO}/contents/data/master.json`, {
+          method: "PUT",
+          headers: {
+            Authorization: `token ${token}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            message: `add stock: ${name}(${code})`,
+            content: btoa(unescape(encodeURIComponent(JSON.stringify(current, null, 2)))),
+            sha: fileData.sha
+          })
+        });
+
+        showMsg("addMsg", `✅ ${name}を追加しました！次回の自動実行で反映されます`);
+        document.getElementById("newCode").value = "";
+        document.getElementById("newName").value = "";
+        document.getElementById("newDividend").value = "";
+        document.getElementById("newAvgYield").value = "";
+
+      } catch (e) {
+        showMsg("addMsg", "エラーが発生しました。トークンを確認してください", true);
+      }
+    }
+
+    function showMsg(id, text, isError = false) {
+      const el = document.getElementById(id);
+      el.textContent = text;
+      el.className = "msg" + (isError ? " error" : "");
+    }
+
+    // カード表示
     function getColorClass(key, value) {
       if (key === "rsi") {
         if (value <= 35) return "green";
