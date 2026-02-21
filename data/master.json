@@ -1,0 +1,14 @@
+[
+  {
+    "code": "9432",
+    "name": "NTT",
+    "dividend": 120,
+    "avg_yield": 3.8
+  },
+  {
+    "code": "8058",
+    "name": "三菱商事",
+    "dividend": 100,
+    "avg_yield": 3.2
+  }
+]
