@@ -8,7 +8,7 @@
     "rsi": 36.0,
     "yield": 3.18,
     "signal": "WAIT",
-    "updated": "2026-02-21 11:00"
+    "updated": "2026-02-21 11:36"
   },
   {
     "code": "8058",
@@ -19,6 +19,17 @@
     "rsi": 80.3,
     "yield": 2.0,
     "signal": "WAIT",
-    "updated": "2026-02-21 11:00"
+    "updated": "2026-02-21 11:36"
+  },
+  {
+    "code": "7203",
+    "name": "トヨタ",
+    "price": 3635.0,
+    "ma25": 3624.4,
+    "divergence": 0.29,
+    "rsi": 58.1,
+    "yield": 2.06,
+    "signal": "WAIT",
+    "updated": "2026-02-21 11:36"
   }
 ]
