@@ -22,7 +22,7 @@ def enrich_stock_info(stock):
 
     # 銘柄名が未設定なら自動取得
     if not stock.get("name"):
-        stock["name"] = info.get("longName") or info.get("shortName") or code
+        stock["name"] = info.get("longNameJa") or info.get("shortNameJa") or info.get("shortName") or info.get("longName") or code
 
     # 配当が未設定なら自動取得
     if not stock.get("dividend"):
