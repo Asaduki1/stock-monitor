@@ -315,11 +315,11 @@
   <!-- 銘柄追加 -->
   <div class="add-section">
     <div class="section-title">＋ 銘柄を追加</div>
-    <div class="form-grid">
-      <input type="text" id="newCode" placeholder="証券コード（例: 8306）">
-      <input type="text" id="newName" placeholder="銘柄名（例: 三菱UFJ）">
-      <input type="number" id="newDividend" placeholder="年間配当（円）">
-      <input type="number" id="newAvgYield" placeholder="平均利回り（例: 3.5）" step="0.1">
+    <div style="display:flex; gap:8px; margin-bottom:10px;">
+      <input type="text" id="newCode" placeholder="証券コードを入力（例: 8306）" style="flex:1;">
+    </div>
+    <div class="msg" style="color:var(--text-dim); font-size:0.72rem; margin-bottom:8px;">
+      ※ 銘柄名・配当・利回りは次回の自動実行時に自動取得されます
     </div>
     <button class="btn" onclick="addStock()">ADD STOCK</button>
     <div class="msg" id="addMsg"></div>
@@ -387,11 +387,8 @@
         return;
       }
       const code = document.getElementById("newCode").value.trim();
-      const name = document.getElementById("newName").value.trim();
-      const dividend = parseFloat(document.getElementById("newDividend").value);
-      const avgYield = parseFloat(document.getElementById("newAvgYield").value);
-      if (!code || !name || isNaN(dividend) || isNaN(avgYield)) {
-        showMsg("addMsg", "全項目を入力してください", true); return;
+      if (!code) {
+        showMsg("addMsg", "証券コードを入力してください", true); return;
       }
       showMsg("addMsg", "ADDING...");
       try {
@@ -403,7 +400,7 @@
         if (current.find(s => s.code === code)) {
           showMsg("addMsg", "すでに登録済みのコードです", true); return;
         }
-        current.push({ code, name, dividend, avg_yield: avgYield });
+        current.push({ code });
         await fetch(`https://api.github.com/repos/${REPO}/contents/data/master.json`, {
           method: "PUT",
           headers: { Authorization: `token ${token}`, "Content-Type": "application/json" },
@@ -414,7 +411,7 @@
           })
         });
         showMsg("addMsg", `✓ ${name} を追加しました`);
-        ["newCode","newName","newDividend","newAvgYield"].forEach(id => document.getElementById(id).value = "");
+        document.getElementById("newCode").value = "";
       } catch(e) {
         showMsg("addMsg", "エラー: トークンを確認してください", true);
       }
