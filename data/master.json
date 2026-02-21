@@ -24,9 +24,15 @@
     "avg_yield": 3.9
   },
   {
-    "code": "8306"
+    "code": "8306",
+    "name": "MITSUBISHI UFJ FINANCIAL GROUP ",
+    "dividend": 78.0,
+    "avg_yield": 265.0
   },
   {
-    "code": "7974"
+    "code": "7974",
+    "name": "NINTENDO CO LTD",
+    "dividend": 181.0,
+    "avg_yield": 211.0
   }
 ]

@@ -1,0 +1,722 @@
+[
+  {
+    "code": "2502",
+    "name": "ASAHI GROUP HLDGS",
+    "price": 1708.5,
+    "yield": 304.0,
+    "pbr": 0.96,
+    "payout": 45.9,
+    "ma75_div": 1.33,
+    "ma200_div": -4.05,
+    "score": 4,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 0,
+      "PBR1倍割れ": 1,
+      "75MA接近": 1,
+      "200MA接近": 1
+    },
+    "updated": "2026-02-21 15:20"
+  },
+  {
+    "code": "6412",
+    "name": "HEIWA CORP",
+    "price": 1993.0,
+    "yield": 401.0,
+    "pbr": 0.77,
+    "payout": 63.3,
+    "ma75_div": -1.06,
+    "ma200_div": -3.21,
+    "score": 4,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 0,
+      "PBR1倍割れ": 1,
+      "75MA接近": 1,
+      "200MA接近": 1
+    },
+    "updated": "2026-02-21 15:21"
+  },
+  {
+    "code": "7267",
+    "name": "HONDA MOTOR CO",
+    "price": 1543.0,
+    "yield": 454.0,
+    "pbr": 0.48,
+    "payout": 55.3,
+    "ma75_div": -1.61,
+    "ma200_div": 0.8,
+    "score": 4,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 0,
+      "PBR1倍割れ": 1,
+      "75MA接近": 1,
+      "200MA接近": 1
+    },
+    "updated": "2026-02-21 15:22"
+  },
+  {
+    "code": "1333",
+    "name": "MARUHA NICHIRO CORPORATION",
+    "price": 1492.0,
+    "yield": 273.0,
+    "pbr": 0.94,
+    "payout": 25.3,
+    "ma75_div": 13.73,
+    "ma200_div": 29.15,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 1,
+      "75MA接近": 0,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:20"
+  },
+  {
+    "code": "3481",
+    "name": "MITSUBISHI ESTATE LOGISTICS REI",
+    "price": 130900.0,
+    "yield": 432.0,
+    "pbr": 0.44,
+    "payout": 105.1,
+    "ma75_div": -0.13,
+    "ma200_div": 6.41,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 0,
+      "PBR1倍割れ": 1,
+      "75MA接近": 1,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:20"
+  },
+  {
+    "code": "3863",
+    "name": "NIPPON PAPER INDUSTRIES CO LTD",
+    "price": 1246.0,
+    "yield": 120.0,
+    "pbr": 0.3,
+    "payout": 9.8,
+    "ma75_div": 9.22,
+    "ma200_div": 10.38,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 1,
+      "75MA接近": 0,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:20"
+  },
+  {
+    "code": "3865",
+    "name": "HOKUETSU CORPORATION",
+    "price": 913.0,
+    "yield": 285.0,
+    "pbr": 0.57,
+    "payout": 34.8,
+    "ma75_div": 2.02,
+    "ma200_div": -5.45,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 0,
+      "PBR1倍割れ": 1,
+      "75MA接近": 1,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:20"
+  },
+  {
+    "code": "4005",
+    "name": "SUMITOMO CHEMICAL COMPANY",
+    "price": 568.0,
+    "yield": 238.0,
+    "pbr": 0.9,
+    "payout": 23.2,
+    "ma75_div": 18.96,
+    "ma200_div": 33.62,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 1,
+      "75MA接近": 0,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:20"
+  },
+  {
+    "code": "4064",
+    "name": "NIPPON CARBIDE INDUSTRIES CO IN",
+    "price": 3000.0,
+    "yield": 340.0,
+    "pbr": 0.76,
+    "payout": 26.1,
+    "ma75_div": 17.86,
+    "ma200_div": 39.23,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 1,
+      "75MA接近": 0,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:20"
+  },
+  {
+    "code": "4527",
+    "name": "ROHTO PHARMACEUTICAL CO",
+    "price": 2377.0,
+    "yield": 194.0,
+    "pbr": 1.87,
+    "payout": 26.4,
+    "ma75_div": -6.13,
+    "ma200_div": 0.26,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 0,
+      "75MA接近": 0,
+      "200MA接近": 1
+    },
+    "updated": "2026-02-21 15:21"
+  },
+  {
+    "code": "4689",
+    "name": "LY CORPORATION",
+    "price": 374.3,
+    "yield": 195.0,
+    "pbr": 0.86,
+    "payout": 24.1,
+    "ma75_div": -9.41,
+    "ma200_div": -20.35,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 1,
+      "75MA接近": 0,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:21"
+  },
+  {
+    "code": "5214",
+    "name": "NIPPON ELECTRIC GLASS",
+    "price": 6180.0,
+    "yield": 259.0,
+    "pbr": 0.94,
+    "payout": 39.2,
+    "ma75_div": 1.71,
+    "ma200_div": 29.69,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 0,
+      "PBR1倍割れ": 1,
+      "75MA接近": 1,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:21"
+  },
+  {
+    "code": "5232",
+    "name": "SUMITOMO OSAKA CEMENT CO",
+    "price": 4409.0,
+    "yield": 272.0,
+    "pbr": 0.73,
+    "payout": 28.9,
+    "ma75_div": 11.69,
+    "ma200_div": 13.97,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 1,
+      "75MA接近": 0,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:21"
+  },
+  {
+    "code": "5233",
+    "name": "TAIHEIYO CEMENT CORP",
+    "price": 4647.0,
+    "yield": 215.0,
+    "pbr": 0.81,
+    "payout": 19.5,
+    "ma75_div": 14.43,
+    "ma200_div": 19.85,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 1,
+      "75MA接近": 0,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:21"
+  },
+  {
+    "code": "5301",
+    "name": "TOKAI CARBON CO",
+    "price": 1042.0,
+    "yield": 288.0,
+    "pbr": 0.7,
+    "payout": 31.9,
+    "ma75_div": 2.83,
+    "ma200_div": 3.86,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 0,
+      "PBR1倍割れ": 1,
+      "75MA接近": 1,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:21"
+  },
+  {
+    "code": "5406",
+    "name": "KOBE STEEL",
+    "price": 2287.0,
+    "yield": 350.0,
+    "pbr": 0.74,
+    "payout": 29.6,
+    "ma75_div": 10.32,
+    "ma200_div": 25.54,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 1,
+      "75MA接近": 0,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:21"
+  },
+  {
+    "code": "5901",
+    "name": "TOYO SEIKAN GROUP HOLDINGS LIMI",
+    "price": 3915.0,
+    "yield": 291.0,
+    "pbr": 0.88,
+    "payout": 36.2,
+    "ma75_div": 2.88,
+    "ma200_div": 16.84,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 0,
+      "PBR1倍割れ": 1,
+      "75MA接近": 1,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:21"
+  },
+  {
+    "code": "5938",
+    "name": "LIXIL CORPORATION",
+    "price": 1825.0,
+    "yield": 493.0,
+    "pbr": 0.79,
+    "payout": 276.4,
+    "ma75_div": -0.87,
+    "ma200_div": 3.15,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 0,
+      "PBR1倍割れ": 1,
+      "75MA接近": 1,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:21"
+  },
+  {
+    "code": "6201",
+    "name": "TOYOTA INDUSTRIES CORP",
+    "price": 20200.0,
+    "yield": 139.0,
+    "pbr": 1.0,
+    "payout": 20.5,
+    "ma75_div": 10.52,
+    "ma200_div": 17.16,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 1,
+      "75MA接近": 0,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:21"
+  },
+  {
+    "code": "6501",
+    "name": "HITACHI",
+    "price": 4930.0,
+    "yield": 91.0,
+    "pbr": 3.51,
+    "payout": 26.9,
+    "ma75_div": -3.01,
+    "ma200_div": 10.26,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 0,
+      "75MA接近": 1,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:21"
+  },
+  {
+    "code": "6702",
+    "name": "FUJITSU",
+    "price": 3630.0,
+    "yield": 138.0,
+    "pbr": 3.19,
+    "payout": 17.8,
+    "ma75_div": -12.63,
+    "ma200_div": -2.55,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 0,
+      "75MA接近": 0,
+      "200MA接近": 1
+    },
+    "updated": "2026-02-21 15:22"
+  },
+  {
+    "code": "7269",
+    "name": "SUZUKI MOTOR CORP",
+    "price": 2294.0,
+    "yield": 201.0,
+    "pbr": 1.34,
+    "payout": 21.2,
+    "ma75_div": -0.21,
+    "ma200_div": 12.81,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 0,
+      "75MA接近": 1,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:22"
+  },
+  {
+    "code": "7270",
+    "name": "SUBARU CORPORATION",
+    "price": 3021.0,
+    "yield": 381.0,
+    "pbr": 0.79,
+    "payout": 34.2,
+    "ma75_div": -10.48,
+    "ma200_div": 0.67,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 0,
+      "PBR1倍割れ": 1,
+      "75MA接近": 0,
+      "200MA接近": 1
+    },
+    "updated": "2026-02-21 15:22"
+  },
+  {
+    "code": "8006",
+    "name": "YUASA FUNASHOKU CO",
+    "price": 1751.0,
+    "yield": 171.0,
+    "pbr": 0.74,
+    "payout": 22.7,
+    "ma75_div": 4.83,
+    "ma200_div": 22.94,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 1,
+      "75MA接近": 0,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:22"
+  },
+  {
+    "code": "8065",
+    "name": "SATO SHOJI CORP",
+    "price": 2432.0,
+    "yield": 313.0,
+    "pbr": 0.68,
+    "payout": 27.9,
+    "ma75_div": 7.63,
+    "ma200_div": 29.39,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 1,
+      "75MA接近": 0,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:22"
+  },
+  {
+    "code": "8473",
+    "name": "SBI HOLDINGS INC",
+    "price": 3355.0,
+    "yield": 268.0,
+    "pbr": 1.26,
+    "payout": 20.9,
+    "ma75_div": -2.18,
+    "ma200_div": 10.8,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 0,
+      "75MA接近": 1,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:22"
+  },
+  {
+    "code": "9006",
+    "name": "KEIKYU CORPORATION",
+    "price": 1540.0,
+    "yield": 299.0,
+    "pbr": 1.1,
+    "payout": 42.2,
+    "ma75_div": 0.85,
+    "ma200_div": 1.6,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 0,
+      "PBR1倍割れ": 0,
+      "75MA接近": 1,
+      "200MA接近": 1
+    },
+    "updated": "2026-02-21 15:22"
+  },
+  {
+    "code": "9009",
+    "name": "KEISEI ELECTRIC RAILWAY CO",
+    "price": 1331.0,
+    "yield": 135.0,
+    "pbr": 1.16,
+    "payout": 12.8,
+    "ma75_div": 5.39,
+    "ma200_div": 0.48,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 0,
+      "75MA接近": 0,
+      "200MA接近": 1
+    },
+    "updated": "2026-02-21 15:22"
+  },
+  {
+    "code": "9022",
+    "name": "CENTRAL JAPAN RAILWAY CO",
+    "price": 4623.0,
+    "yield": 69.0,
+    "pbr": 0.89,
+    "payout": 6.0,
+    "ma75_div": 6.94,
+    "ma200_div": 19.31,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 1,
+      "75MA接近": 0,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:22"
+  },
+  {
+    "code": "9101",
+    "name": "NIPPON YUSEN KABUSHIKI KAISHA",
+    "price": 5215.0,
+    "yield": 384.0,
+    "pbr": 0.74,
+    "payout": 42.8,
+    "ma75_div": 3.57,
+    "ma200_div": 2.89,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 0,
+      "PBR1倍割れ": 1,
+      "75MA接近": 0,
+      "200MA接近": 1
+    },
+    "updated": "2026-02-21 15:22"
+  },
+  {
+    "code": "9432",
+    "name": "NTT INC",
+    "price": 151.0,
+    "yield": 351.0,
+    "pbr": 1.3,
+    "payout": 41.8,
+    "ma75_div": -2.7,
+    "ma200_div": -2.06,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 0,
+      "PBR1倍割れ": 0,
+      "75MA接近": 1,
+      "200MA接近": 1
+    },
+    "updated": "2026-02-21 15:23"
+  },
+  {
+    "code": "9434",
+    "name": "SOFTBANK CORP.",
+    "price": 210.0,
+    "yield": 410.0,
+    "pbr": 3.51,
+    "payout": 76.4,
+    "ma75_div": -3.22,
+    "ma200_div": -3.84,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 0,
+      "PBR1倍割れ": 0,
+      "75MA接近": 1,
+      "200MA接近": 1
+    },
+    "updated": "2026-02-21 15:23"
+  },
+  {
+    "code": "9502",
+    "name": "CHUBU ELECTRIC POWER CO INC",
+    "price": 2573.5,
+    "yield": 272.0,
+    "pbr": 0.65,
+    "payout": 22.2,
+    "ma75_div": 10.55,
+    "ma200_div": 25.33,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 1,
+      "75MA接近": 0,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:23"
+  },
+  {
+    "code": "9503",
+    "name": "KANSAI ELECTRIC POWER CO INC",
+    "price": 2682.0,
+    "yield": 336.0,
+    "pbr": 0.88,
+    "payout": 15.4,
+    "ma75_div": 6.48,
+    "ma200_div": 26.39,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 1,
+      "75MA接近": 0,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:23"
+  },
+  {
+    "code": "9504",
+    "name": "CHUGOKU ELECTRIC POWER CO INC",
+    "price": 1078.0,
+    "yield": 250.0,
+    "pbr": 0.51,
+    "payout": 10.3,
+    "ma75_div": 8.67,
+    "ma200_div": 23.94,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 1,
+      "75MA接近": 0,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:23"
+  },
+  {
+    "code": "9984",
+    "name": "SOFTBANK GROUP CORP",
+    "price": 4329.0,
+    "yield": 25.0,
+    "pbr": 1.6,
+    "payout": 2.1,
+    "ma75_div": -4.78,
+    "ma200_div": 13.86,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 0,
+      "75MA接近": 1,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-21 15:23"
+  }
+]
