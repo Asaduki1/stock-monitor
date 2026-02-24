@@ -2,12 +2,12 @@
   {
     "code": "4064",
     "name": "NIPPON CARBIDE INDUSTRIES CO IN",
-    "price": 3050.0,
+    "price": 3070.0,
     "yield": 3.4,
-    "pbr": 0.77,
+    "pbr": 0.78,
     "payout": 26.1,
-    "ma75_div": 19.24,
-    "ma200_div": 41.09,
+    "ma75_div": 20.01,
+    "ma200_div": 42.01,
     "score": 3,
     "signal": "WATCH",
     "conditions": {
@@ -17,17 +17,17 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-24 04:33"
+    "updated": "2026-02-24 05:48"
   },
   {
     "code": "5406",
     "name": "KOBE STEEL",
-    "price": 2237.5,
+    "price": 2238.5,
     "yield": 3.5,
     "pbr": 0.73,
     "payout": 29.6,
-    "ma75_div": 7.65,
-    "ma200_div": 22.62,
+    "ma75_div": 7.7,
+    "ma200_div": 22.68,
     "score": 3,
     "signal": "WATCH",
     "conditions": {
@@ -37,16 +37,56 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-24 04:33"
+    "updated": "2026-02-24 05:48"
   },
   {
     "code": "8065",
     "name": "SATO SHOJI CORP",
-    "price": 2453.0,
+    "price": 2465.0,
     "yield": 3.13,
-    "pbr": 0.68,
+    "pbr": 0.69,
     "payout": 27.9,
-    "ma75_div": 8.37,
+    "ma75_div": 8.89,
+    "ma200_div": 30.8,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 1,
+      "75MA接近": 0,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-24 05:50"
+  },
+  {
+    "code": "9022",
+    "name": "CENTRAL JAPAN RAILWAY CO",
+    "price": 4651.0,
+    "yield": 69.0,
+    "pbr": 0.9,
+    "payout": 6.0,
+    "ma75_div": 7.3,
+    "ma200_div": 19.77,
+    "score": 3,
+    "signal": "WATCH",
+    "conditions": {
+      "利回り3%以上": 1,
+      "配当性向30%以下": 1,
+      "PBR1倍割れ": 1,
+      "75MA接近": 0,
+      "200MA接近": 0
+    },
+    "updated": "2026-02-24 05:50"
+  },
+  {
+    "code": "9503",
+    "name": "KANSAI ELECTRIC POWER CO INC",
+    "price": 2769.0,
+    "yield": 3.36,
+    "pbr": 0.91,
+    "payout": 15.4,
+    "ma75_div": 9.64,
     "ma200_div": 30.17,
     "score": 3,
     "signal": "WATCH",
@@ -57,46 +97,6 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-24 04:35"
-  },
-  {
-    "code": "9022",
-    "name": "CENTRAL JAPAN RAILWAY CO",
-    "price": 4642.0,
-    "yield": 69.0,
-    "pbr": 0.9,
-    "payout": 6.0,
-    "ma75_div": 7.1,
-    "ma200_div": 19.54,
-    "score": 3,
-    "signal": "WATCH",
-    "conditions": {
-      "利回り3%以上": 1,
-      "配当性向30%以下": 1,
-      "PBR1倍割れ": 1,
-      "75MA接近": 0,
-      "200MA接近": 0
-    },
-    "updated": "2026-02-24 04:35"
-  },
-  {
-    "code": "9503",
-    "name": "KANSAI ELECTRIC POWER CO INC",
-    "price": 2751.0,
-    "yield": 3.36,
-    "pbr": 0.91,
-    "payout": 15.4,
-    "ma75_div": 8.94,
-    "ma200_div": 29.33,
-    "score": 3,
-    "signal": "WATCH",
-    "conditions": {
-      "利回り3%以上": 1,
-      "配当性向30%以下": 1,
-      "PBR1倍割れ": 1,
-      "75MA接近": 0,
-      "200MA接近": 0
-    },
-    "updated": "2026-02-24 04:35"
+    "updated": "2026-02-24 05:50"
   }
 ]
