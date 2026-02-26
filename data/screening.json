@@ -2,12 +2,12 @@
   {
     "code": "4064",
     "name": "NIPPON CARBIDE INDUSTRIES CO IN",
-    "price": 3060.0,
+    "price": 3075.0,
     "yield": 3.36,
-    "pbr": 0.77,
+    "pbr": 0.78,
     "payout": 26.1,
-    "ma75_div": 18.51,
-    "ma200_div": 40.63,
+    "ma75_div": 19.08,
+    "ma200_div": 41.31,
     "score": 3,
     "signal": "WATCH",
     "conditions": {
@@ -17,17 +17,17 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-26 05:04"
+    "updated": "2026-02-26 06:14"
   },
   {
     "code": "5406",
     "name": "KOBE STEEL",
-    "price": 2214.0,
+    "price": 2210.0,
     "yield": 3.64,
     "pbr": 0.72,
     "payout": 29.6,
-    "ma75_div": 5.99,
-    "ma200_div": 20.96,
+    "ma75_div": 5.8,
+    "ma200_div": 20.74,
     "score": 3,
     "signal": "WATCH",
     "conditions": {
@@ -37,17 +37,17 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-26 05:04"
+    "updated": "2026-02-26 06:14"
   },
   {
     "code": "8065",
     "name": "SATO SHOJI CORP",
-    "price": 2478.0,
+    "price": 2477.0,
     "yield": 3.1,
     "pbr": 0.69,
     "payout": 27.9,
-    "ma75_div": 9.05,
-    "ma200_div": 30.78,
+    "ma75_div": 9.01,
+    "ma200_div": 30.73,
     "score": 3,
     "signal": "WATCH",
     "conditions": {
@@ -57,7 +57,7 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-26 05:06"
+    "updated": "2026-02-26 06:15"
   },
   {
     "code": "9022",
@@ -77,17 +77,17 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-26 05:06"
+    "updated": "2026-02-26 06:16"
   },
   {
     "code": "9503",
     "name": "KANSAI ELECTRIC POWER CO INC",
-    "price": 2771.0,
+    "price": 2758.5,
     "yield": 3.28,
     "pbr": 0.91,
     "payout": 15.4,
-    "ma75_div": 9.29,
-    "ma200_div": 29.62,
+    "ma75_div": 8.81,
+    "ma200_div": 29.04,
     "score": 3,
     "signal": "WATCH",
     "conditions": {
@@ -97,6 +97,6 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-26 05:06"
+    "updated": "2026-02-26 06:16"
   }
 ]
