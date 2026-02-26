@@ -2,100 +2,100 @@
   {
     "code": "9432",
     "name": "NTT",
-    "price": 152.7,
-    "ma25": 154.1,
-    "divergence": -0.91,
-    "rsi": 47.0,
-    "yield": 3.14,
+    "price": 152.1,
+    "ma25": 154.0,
+    "divergence": -1.23,
+    "rsi": 44.1,
+    "yield": 3.16,
     "signal": "WAIT",
-    "updated": "2026-02-26 06:13"
+    "updated": "2026-02-26 07:29"
   },
   {
     "code": "8058",
     "name": "ÃÂ¤ÃÂ¸ÃÂÃÂ¨ÃÂÃÂ±ÃÂ¥ÃÂÃÂÃÂ¤ÃÂºÃÂ",
-    "price": 5168.0,
-    "ma25": 4589.0,
-    "divergence": 12.62,
-    "rsi": 80.1,
-    "yield": 1.93,
+    "price": 5161.0,
+    "ma25": 4588.7,
+    "divergence": 12.47,
+    "rsi": 80.0,
+    "yield": 1.94,
     "signal": "WAIT",
-    "updated": "2026-02-26 06:13"
+    "updated": "2026-02-26 07:29"
   },
   {
     "code": "7203",
     "name": "ÃÂ£ÃÂÃÂÃÂ£ÃÂÃÂ¨ÃÂ£ÃÂÃÂ¿",
-    "price": 3775.0,
-    "ma25": 3637.0,
-    "divergence": 3.79,
-    "rsi": 53.4,
+    "price": 3776.0,
+    "ma25": 3637.1,
+    "divergence": 3.82,
+    "rsi": 53.5,
     "yield": 1.99,
     "signal": "WAIT",
-    "updated": "2026-02-26 06:13"
+    "updated": "2026-02-26 07:29"
   },
   {
     "code": "2914",
     "name": "JT",
-    "price": 6026.0,
-    "ma25": 5856.5,
-    "divergence": 2.89,
-    "rsi": 56.5,
-    "yield": 4.02,
+    "price": 6010.0,
+    "ma25": 5855.8,
+    "divergence": 2.63,
+    "rsi": 55.6,
+    "yield": 4.03,
     "signal": "WAIT",
-    "updated": "2026-02-26 06:13"
+    "updated": "2026-02-26 07:29"
   },
   {
     "code": "8306",
     "name": "MITSUBISHI UFJ FINANCIAL GROUP ",
-    "price": 2920.5,
-    "ma25": 2885.3,
-    "divergence": 1.22,
-    "rsi": 48.4,
+    "price": 2925.0,
+    "ma25": 2885.5,
+    "divergence": 1.37,
+    "rsi": 48.6,
     "yield": 2.67,
     "signal": "WAIT",
-    "updated": "2026-02-26 06:13"
+    "updated": "2026-02-26 07:29"
   },
   {
     "code": "7974",
     "name": "NINTENDO CO LTD",
-    "price": 8757.0,
-    "ma25": 9229.6,
-    "divergence": -5.12,
-    "rsi": 45.4,
+    "price": 8737.0,
+    "ma25": 9228.8,
+    "divergence": -5.33,
+    "rsi": 44.9,
     "yield": 2.07,
     "signal": "WAIT",
-    "updated": "2026-02-26 06:13"
+    "updated": "2026-02-26 07:29"
   },
   {
     "code": "2502",
     "name": "ASAHI GROUP HLDGS",
-    "price": 1737.0,
-    "ma25": 1672.0,
-    "divergence": 3.89,
-    "rsi": 65.3,
-    "yield": 2.99,
+    "price": 1732.0,
+    "ma25": 1671.8,
+    "divergence": 3.6,
+    "rsi": 64.7,
+    "yield": 3.0,
     "signal": "WAIT",
-    "updated": "2026-02-26 06:13"
+    "updated": "2026-02-26 07:29"
   },
   {
     "code": "4064",
     "name": "NIPPON CARBIDE INDUSTRIES CO IN",
-    "price": 3075.0,
-    "ma25": 2849.4,
-    "divergence": 7.92,
-    "rsi": 69.6,
-    "yield": 3.32,
+    "price": 3065.0,
+    "ma25": 2849.0,
+    "divergence": 7.58,
+    "rsi": 69.1,
+    "yield": 3.33,
     "signal": "WAIT",
-    "updated": "2026-02-26 06:13"
+    "updated": "2026-02-26 07:29"
   },
   {
     "code": "5406",
     "name": "KOBE STEEL",
-    "price": 2210.0,
-    "ma25": 2266.8,
-    "divergence": -2.51,
-    "rsi": 35.0,
-    "yield": 3.62,
+    "price": 2203.0,
+    "ma25": 2266.5,
+    "divergence": -2.8,
+    "rsi": 33.8,
+    "yield": 3.63,
     "signal": "WAIT",
-    "updated": "2026-02-26 06:13"
+    "updated": "2026-02-26 07:29"
   }
 ]
