@@ -2,12 +2,12 @@
   {
     "code": "4064",
     "name": "NIPPON CARBIDE INDUSTRIES CO IN",
-    "price": 3035.0,
-    "yield": 3.31,
-    "pbr": 0.77,
+    "price": 3080.0,
+    "yield": 3.36,
+    "pbr": 0.78,
     "payout": 26.1,
-    "ma75_div": 18.07,
-    "ma200_div": 39.94,
+    "ma75_div": 19.27,
+    "ma200_div": 41.54,
     "score": 3,
     "signal": "WATCH",
     "conditions": {
@@ -17,17 +17,17 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-26 00:02"
+    "updated": "2026-02-26 03:13"
   },
   {
     "code": "5406",
     "name": "KOBE STEEL",
-    "price": 2196.0,
-    "yield": 3.59,
-    "pbr": 0.71,
+    "price": 2221.0,
+    "yield": 3.64,
+    "pbr": 0.72,
     "payout": 29.6,
-    "ma75_div": 5.41,
-    "ma200_div": 20.17,
+    "ma75_div": 6.32,
+    "ma200_div": 21.34,
     "score": 3,
     "signal": "WATCH",
     "conditions": {
@@ -37,17 +37,17 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-26 00:02"
+    "updated": "2026-02-26 03:13"
   },
   {
     "code": "8065",
     "name": "SATO SHOJI CORP",
-    "price": 2455.0,
+    "price": 2485.0,
     "yield": 3.1,
-    "pbr": 0.68,
+    "pbr": 0.69,
     "payout": 27.9,
-    "ma75_div": 8.26,
-    "ma200_div": 29.92,
+    "ma75_div": 9.35,
+    "ma200_div": 31.15,
     "score": 3,
     "signal": "WATCH",
     "conditions": {
@@ -57,17 +57,17 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-26 00:04"
+    "updated": "2026-02-26 03:15"
   },
   {
     "code": "9022",
     "name": "CENTRAL JAPAN RAILWAY CO",
-    "price": 4623.0,
+    "price": 4609.0,
     "yield": 69.0,
     "pbr": 0.89,
     "payout": 6.0,
-    "ma75_div": 6.38,
-    "ma200_div": 18.79,
+    "ma75_div": 5.79,
+    "ma200_div": 18.22,
     "score": 3,
     "signal": "WATCH",
     "conditions": {
@@ -77,17 +77,17 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-26 00:04"
+    "updated": "2026-02-26 03:15"
   },
   {
     "code": "9503",
     "name": "KANSAI ELECTRIC POWER CO INC",
-    "price": 2744.0,
+    "price": 2767.5,
     "yield": 3.28,
     "pbr": 0.91,
     "payout": 15.4,
-    "ma75_div": 8.47,
-    "ma200_div": 28.7,
+    "ma75_div": 9.16,
+    "ma200_div": 29.46,
     "score": 3,
     "signal": "WATCH",
     "conditions": {
@@ -97,6 +97,6 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-26 00:04"
+    "updated": "2026-02-26 03:15"
   }
 ]
