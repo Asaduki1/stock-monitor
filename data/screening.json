@@ -2,12 +2,12 @@
   {
     "code": "4064",
     "name": "NIPPON CARBIDE INDUSTRIES CO IN",
-    "price": 3140.0,
+    "price": 3160.0,
     "yield": 3.33,
-    "pbr": 0.79,
+    "pbr": 0.8,
     "payout": 26.1,
-    "ma75_div": 20.97,
-    "ma200_div": 43.81,
+    "ma75_div": 21.73,
+    "ma200_div": 44.72,
     "score": 3,
     "signal": "WATCH",
     "conditions": {
@@ -17,17 +17,17 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-27 06:00"
+    "updated": "2026-02-27 07:09"
   },
   {
     "code": "5406",
     "name": "KOBE STEEL",
-    "price": 2268.5,
+    "price": 2275.0,
     "yield": 3.63,
     "pbr": 0.74,
     "payout": 29.6,
-    "ma75_div": 8.27,
-    "ma200_div": 23.72,
+    "ma75_div": 8.58,
+    "ma200_div": 24.07,
     "score": 3,
     "signal": "WATCH",
     "conditions": {
@@ -37,17 +37,17 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-27 06:01"
+    "updated": "2026-02-27 07:09"
   },
   {
     "code": "8065",
     "name": "SATO SHOJI CORP",
-    "price": 2501.0,
+    "price": 2510.0,
     "yield": 3.07,
     "pbr": 0.7,
     "payout": 27.9,
-    "ma75_div": 9.82,
-    "ma200_div": 31.62,
+    "ma75_div": 10.21,
+    "ma200_div": 32.09,
     "score": 3,
     "signal": "WATCH",
     "conditions": {
@@ -57,17 +57,17 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-27 06:02"
+    "updated": "2026-02-27 07:10"
   },
   {
     "code": "9022",
     "name": "CENTRAL JAPAN RAILWAY CO",
-    "price": 4612.0,
+    "price": 4608.0,
     "yield": 70.0,
     "pbr": 0.89,
     "payout": 6.0,
-    "ma75_div": 5.64,
-    "ma200_div": 18.09,
+    "ma75_div": 5.55,
+    "ma200_div": 17.98,
     "score": 3,
     "signal": "WATCH",
     "conditions": {
@@ -77,17 +77,17 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-27 06:02"
+    "updated": "2026-02-27 07:11"
   },
   {
     "code": "9503",
     "name": "KANSAI ELECTRIC POWER CO INC",
-    "price": 2811.0,
+    "price": 2823.0,
     "yield": 3.26,
     "pbr": 0.93,
     "payout": 15.4,
-    "ma75_div": 10.61,
-    "ma200_div": 31.13,
+    "ma75_div": 11.07,
+    "ma200_div": 31.69,
     "score": 3,
     "signal": "WATCH",
     "conditions": {
@@ -97,6 +97,6 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-27 06:02"
+    "updated": "2026-02-27 07:11"
   }
 ]
