@@ -2,12 +2,12 @@
   {
     "code": "4064",
     "name": "NIPPON CARBIDE INDUSTRIES CO IN",
-    "price": 3145.0,
+    "price": 3140.0,
     "yield": 3.33,
     "pbr": 0.79,
     "payout": 26.1,
-    "ma75_div": 21.16,
-    "ma200_div": 44.04,
+    "ma75_div": 20.97,
+    "ma200_div": 43.81,
     "score": 3,
     "signal": "WATCH",
     "conditions": {
@@ -17,17 +17,17 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-27 04:57"
+    "updated": "2026-02-27 06:00"
   },
   {
     "code": "5406",
     "name": "KOBE STEEL",
-    "price": 2262.5,
+    "price": 2268.5,
     "yield": 3.63,
     "pbr": 0.74,
     "payout": 29.6,
-    "ma75_div": 7.99,
-    "ma200_div": 23.39,
+    "ma75_div": 8.27,
+    "ma200_div": 23.72,
     "score": 3,
     "signal": "WATCH",
     "conditions": {
@@ -37,17 +37,17 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-27 04:58"
+    "updated": "2026-02-27 06:01"
   },
   {
     "code": "8065",
     "name": "SATO SHOJI CORP",
-    "price": 2507.0,
+    "price": 2501.0,
     "yield": 3.07,
     "pbr": 0.7,
     "payout": 27.9,
-    "ma75_div": 10.08,
-    "ma200_div": 31.93,
+    "ma75_div": 9.82,
+    "ma200_div": 31.62,
     "score": 3,
     "signal": "WATCH",
     "conditions": {
@@ -57,17 +57,17 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-27 04:59"
+    "updated": "2026-02-27 06:02"
   },
   {
     "code": "9022",
     "name": "CENTRAL JAPAN RAILWAY CO",
-    "price": 4606.0,
+    "price": 4612.0,
     "yield": 70.0,
     "pbr": 0.89,
     "payout": 6.0,
-    "ma75_div": 5.5,
-    "ma200_div": 17.93,
+    "ma75_div": 5.64,
+    "ma200_div": 18.09,
     "score": 3,
     "signal": "WATCH",
     "conditions": {
@@ -77,7 +77,7 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-27 04:59"
+    "updated": "2026-02-27 06:02"
   },
   {
     "code": "9503",
@@ -97,6 +97,6 @@
       "75MA接近": 0,
       "200MA接近": 0
     },
-    "updated": "2026-02-27 04:59"
+    "updated": "2026-02-27 06:02"
   }
 ]
