@@ -333,7 +333,7 @@
       await fetch(`https://api.github.com/repos/${REPO}/contents/data/master.json`, {
         method: "PUT",
         headers: { Authorization: `token ${token}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ message: `add: ${code}`, content: btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(current, null, 2)))), sha: fileData.sha })
+        body: JSON.stringify({ message: `add: ${code}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(current, null, 2)))), sha: fileData.sha })
       });
       const pending = getPending();
       if (!pending.find(p => p.code === code)) { pending.push({ code }); savePending(pending); }
@@ -433,7 +433,7 @@
       await fetch(`https://api.github.com/repos/${REPO}/contents/data/master.json`, {
         method: "PUT",
         headers: { Authorization: `token ${token}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ message: `add stocks from screening`, content: btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(current, null, 2)))), sha: fileData.sha })
+        body: JSON.stringify({ message: `add stocks from screening`, content: btoa(unescape(encodeURIComponent(JSON.stringify(current, null, 2)))), sha: fileData.sha })
       });
       const pending = getPending();
       checked.forEach(code => { if (!pending.find(p => p.code === code)) pending.push({ code }); });
@@ -472,7 +472,7 @@
       await fetch(`https://api.github.com/repos/${REPO}/contents/data/master.json`, {
         method: "PUT",
         headers: { Authorization: `token ${token}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ message: `delete: ${code}`, content: btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(current, null, 2)))), sha: fileData.sha })
+        body: JSON.stringify({ message: `delete: ${code}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(current, null, 2)))), sha: fileData.sha })
       });
       document.querySelector(`#tableBody tr.is-buy td span.code, #tableBody td span.code`)?.closest('tr[data-code="${code}"]')?.remove();
       // テーブルから該当行を削除
