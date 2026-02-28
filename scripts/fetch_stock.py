@@ -20,10 +20,11 @@ def get_prices(id_token, code):
     from_date = (today - timedelta(days=300)).strftime("%Y-%m-%d")
     to_date = today.strftime("%Y-%m-%d")
     res = requests.get(
-        f"https://api.jquants.com/v1/prices/daily_quotes",
+        "https://api.jquants.com/v1/prices/daily_quotes",
         headers={"Authorization": f"Bearer {id_token}"},
         params={"code": code, "from": from_date, "to": to_date}
     )
+    print(f"  株価API: {res.status_code} / {res.text[:300]}")
     data = res.json().get("daily_quotes", [])
     if not data:
         return None
