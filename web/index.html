@@ -163,7 +163,14 @@
     <div class="hint">※ 銘柄名・配当・利回りは次回自動実行時に取得されます</div>
     <div class="msg" id="addMsg"></div>
   </div>
-
+  
+  <div class="card">
+    <div class="section-title">⚡ 手動更新</div>
+    <div class="hint">株価データを今すぐ更新します（通常15分ごとに自動実行）</div>
+    <button class="btn full" onclick="triggerWorkflow()" style="margin-top:8px;">▶ 今すぐ更新する</button>
+    <div class="msg" id="workflowMsg"></div>
+  </div>
+  
   <div class="card">
     <div class="section-title">📨 Telegram テスト送信</div>
     <div class="input-row" style="margin-bottom:8px;">
@@ -488,6 +495,35 @@
     [...document.querySelectorAll('#tableBody td span.code')].find(el => el.textContent === code)?.closest('tr')?.remove();
     showMsg("addMsg", `✓ ${code} を削除しました`);
   }
+
+  // ===== ワークフロー手動実行 =====
+  async function triggerWorkflow() {
+    const token = getToken();
+    if (!token) {
+      showMsg("workflowMsg", "先にトークンを設定してください", true);
+      document.getElementById("tokenSection").style.display = "block";
+      return;
+    }
+    showMsg("workflowMsg", "実行中...");
+    try {
+      const res = await fetch(`https://api.github.com/repos/${REPO}/actions/workflows/run.yml/dispatches`, {
+        method: "POST",
+        headers: {
+          Authorization: `token ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ ref: "main" })
+      });
+      if (res.status === 204) {
+        showMsg("workflowMsg", "✓ 更新を開始しました！1〜2分後に反映されます");
+      } else {
+        showMsg("workflowMsg", "エラー: " + res.status, true);
+      }
+    } catch(e) {
+      showMsg("workflowMsg", "実行失敗: ネットワークエラー", true);
+    }
+  }
+  
   // ===== ユーティリティ =====
   function showMsg(id, text, isError=false) {
     const el = document.getElementById(id);
