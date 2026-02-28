@@ -37,7 +37,7 @@
     .table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px; }
     table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
     thead tr { background: #0d1117; border-bottom: 1px solid var(--border); }
-    th { padding: 10px 14px; text-align: right; font-family: var(--mono); font-size: 0.68rem; color: var(--text-dim); letter-spacing: 0.06em; white-space: nowrap; }
+    th { padding: 10px 14px; text-align: right; font-family: var(--mono); font-size: 0.68rem; color: #a0c4d8; letter-spacing: 0.06em; white-space: nowrap; }
     th:first-child, th:nth-child(2), th:nth-child(3) { text-align: left; }
     tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
     tbody tr:last-child { border-bottom: none; }
@@ -129,17 +129,18 @@
   <div class="table-wrap">
     <div class="loading" id="loading">LOADING...</div>
     <table id="stockTable" style="display:none">
-      <thead>
-        <tr>
-          <th>CODE</th>
-          <th>銘柄</th>
-          <th>株価</th>
-          <th>利回り</th>
-          <th>RSI</th>
-          <th>乖離率</th>
-          <th>SIGNAL</th>
-        </tr>
-      </thead>
+        <thead>
+          <tr>
+            <th>CODE</th>
+            <th>銘柄</th>
+            <th>株価</th>
+            <th>利回り</th>
+            <th>RSI</th>
+            <th>乖離率</th>
+            <th>SIGNAL</th>
+            <th>削除</th>
+          </tr>
+        </thead>
       <tbody id="tableBody"></tbody>
     </table>
   </div>
@@ -291,14 +292,15 @@
     data.forEach(s => {
       const tr = document.createElement("tr");
       if (s.signal === "BUY") tr.classList.add("is-buy");
-      tr.innerHTML = `
+    tr.innerHTML = `
         <td><span class="code">${s.code}</span></td>
         <td><span class="name">${s.name}</span></td>
         <td><span class="price">¥${s.price.toLocaleString()}</span></td>
         <td class="${colorClass('yield', s.yield)}">${s.yield}%</td>
         <td class="${colorClass('rsi', s.rsi)}">${s.rsi}</td>
         <td class="${colorClass('divergence', s.divergence)}">${s.divergence}%</td>
-        <td><span class="signal-badge ${s.signal}">${s.signal}</span></td>`;
+        <td><span class="signal-badge ${s.signal}">${s.signal}</span></td>
+        <td><button class="btn secondary" style="padding:4px 10px;font-size:0.7rem;" onclick="deleteStock('${s.code}')">✕</button></td>`;
       tbody.appendChild(tr);
     });
     pending.forEach(p => {
@@ -308,7 +310,8 @@
         <td><span class="code">${p.code}</span></td>
         <td><span class="name pending">取得待ち...</span></td>
         <td>--</td><td>--</td><td>--</td><td>--</td>
-        <td><span class="signal-badge PENDING">PENDING</span></td>`;
+        <td><span class="signal-badge PENDING">PENDING</span></td>
+        <td><button class="btn secondary" style="padding:4px 10px;font-size:0.7rem;" onclick="deletePending('${p.code}')">✕</button></td>`;
       tbody.appendChild(tr);
     });
     document.getElementById("updated").textContent = "UPD " + (data[0]?.updated ?? "--");
@@ -456,7 +459,35 @@
       else { showMsg("tgMsg", "エラー: " + data.description, true); }
     } catch(e) { showMsg("tgMsg", "送信失敗: ネットワークエラー", true); }
   }
+// ===== 銘柄削除 =====
+  async function deleteStock(code) {
+    if (!confirm(`${code} を監視リストから削除しますか？`)) return;
+    const token = getToken();
+    if (!token) { alert("先にトークンを設定してください"); return; }
+    try {
+      const res = await fetch(`https://api.github.com/repos/${REPO}/contents/data/master.json`, { headers: { Authorization: `token ${token}` } });
+      const fileData = await res.json();
+      let current = JSON.parse(atob(fileData.content));
+      current = current.filter(s => s.code !== code);
+      await fetch(`https://api.github.com/repos/${REPO}/contents/data/master.json`, {
+        method: "PUT",
+        headers: { Authorization: `token ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ message: `delete: ${code}`, content: btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(current, null, 2)))), sha: fileData.sha })
+      });
+      document.querySelector(`#tableBody tr.is-buy td span.code, #tableBody td span.code`)?.closest('tr[data-code="${code}"]')?.remove();
+      // テーブルから該当行を削除
+      [...document.querySelectorAll('#tableBody td span.code')].find(el => el.textContent === code)?.closest('tr')?.remove();
+      showMsg("addMsg", `✓ ${code} を削除しました`);
+    } catch(e) { alert("削除失敗: トークンを確認してください"); }
+  }
 
+  function deletePending(code) {
+    if (!confirm(`${code} を削除しますか？`)) return;
+    const pending = getPending().filter(p => p.code !== code);
+    savePending(pending);
+    [...document.querySelectorAll('#tableBody td span.code')].find(el => el.textContent === code)?.closest('tr')?.remove();
+    showMsg("addMsg", `✓ ${code} を削除しました`);
+  }
   // ===== ユーティリティ =====
   function showMsg(id, text, isError=false) {
     const el = document.getElementById(id);
