@@ -134,6 +134,7 @@
             <th>CODE</th>
             <th>銘柄</th>
             <th>株価</th>
+            <th>1株配当</th>
             <th>利回り</th>
             <th>RSI</th>
             <th>乖離率</th>
@@ -303,6 +304,7 @@
         <td><span class="code">${s.code}</span></td>
         <td><span class="name">${s.name}</span></td>
         <td><span class="price">¥${s.price.toLocaleString()}</span></td>
+        <td>¥${s.dividend ?? "--"}</td>
         <td class="${colorClass('yield', s.yield)}">${s.yield}%</td>
         <td class="${colorClass('rsi', s.rsi)}">${s.rsi}</td>
         <td class="${colorClass('divergence', s.divergence)}">${s.divergence}%</td>
