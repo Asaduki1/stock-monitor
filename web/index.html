@@ -11,8 +11,6 @@
       --surface: #0d1117;
       --border: #1e2a38;
       --accent: #00ffe0;
-      --buy: #00ffe0;
-      --wait: #3a4a5a;
       --red: #ff4d6d;
       --yellow: #ffd166;
       --text: #c9d6e3;
@@ -22,64 +20,108 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; padding: 20px 16px; }
-    .header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+
+    /* ヘッダー */
+    .header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
     .header-left h1 { font-family: var(--mono); font-size: 1.1rem; color: var(--accent); letter-spacing: 0.1em; }
     .header-left .subtitle { font-size: 0.7rem; color: var(--text-dim); margin-top: 2px; font-family: var(--mono); }
     .updated { font-family: var(--mono); font-size: 0.7rem; color: var(--text-dim); }
-    .buy-banner { display: none; background: rgba(0,255,224,0.06); border: 1px solid var(--accent); border-radius: 6px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.8rem; color: var(--accent); font-family: var(--mono); }
-    .buy-banner.show { display: block; }
-    .table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 24px; }
+
+    /* タブ */
+    .tabs { display: flex; gap: 4px; margin-bottom: 20px; }
+    .tab { font-family: var(--mono); font-size: 0.78rem; padding: 8px 18px; border-radius: 6px; border: 1px solid var(--border); color: var(--text-dim); cursor: pointer; background: none; letter-spacing: 0.05em; transition: all 0.15s; }
+    .tab.active { border-color: var(--accent); color: var(--accent); background: rgba(0,255,224,0.06); }
+
+    /* テーブル共通 */
+    .table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px; }
     table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
     thead tr { background: #0d1117; border-bottom: 1px solid var(--border); }
-    th { padding: 10px 14px; text-align: right; font-family: var(--mono); font-size: 0.68rem; color: var(--text-dim); letter-spacing: 0.08em; white-space: nowrap; }
-    th:first-child, th:nth-child(2) { text-align: left; }
+    th { padding: 10px 14px; text-align: right; font-family: var(--mono); font-size: 0.68rem; color: var(--text-dim); letter-spacing: 0.06em; white-space: nowrap; }
+    th:first-child, th:nth-child(2), th:nth-child(3) { text-align: left; }
     tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
     tbody tr:last-child { border-bottom: none; }
     tbody tr:hover { background: rgba(255,255,255,0.03); }
     tbody tr.is-buy { background: rgba(0,255,224,0.04); }
     tbody tr.is-pending { opacity: 0.5; }
-    td { padding: 12px 14px; text-align: right; white-space: nowrap; }
-    td:first-child { text-align: left; }
-    td:nth-child(2) { text-align: left; }
+    td { padding: 11px 14px; text-align: right; white-space: nowrap; }
+    td:first-child, td:nth-child(2), td:nth-child(3) { text-align: left; }
     .code { font-family: var(--mono); font-size: 0.75rem; color: var(--text-dim); }
     .name { font-weight: 700; font-size: 0.85rem; }
     .name.pending { color: var(--text-dim); font-weight: normal; font-style: italic; }
     .price { font-family: var(--mono); font-size: 0.95rem; font-weight: bold; color: #e8f4ff; }
     .signal-badge { display: inline-block; font-family: var(--mono); font-size: 0.68rem; font-weight: bold; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.08em; }
     .signal-badge.BUY { background: rgba(0,255,224,0.15); color: var(--accent); border: 1px solid var(--accent); animation: pulse 2s infinite; }
+    .signal-badge.WATCH { background: rgba(255,209,102,0.1); color: var(--yellow); border: 1px solid var(--yellow); }
     .signal-badge.WAIT { background: rgba(255,255,255,0.04); color: var(--text-dim); border: 1px solid var(--border); }
     .signal-badge.PENDING { background: rgba(255,209,102,0.1); color: var(--yellow); border: 1px solid var(--yellow); font-size: 0.62rem; }
     @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(0,255,224,0.3)}50%{box-shadow:0 0 8px 2px rgba(0,255,224,0.15)} }
-    .green { color: var(--buy); }
+    .green { color: var(--accent); }
     .red { color: var(--red); }
     .yellow { color: var(--yellow); }
-    .add-section { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+
+    /* カード・フォーム */
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
     .section-title { font-family: var(--mono); font-size: 0.72rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
     .input-row { display: flex; gap: 8px; margin-bottom: 8px; }
-    input { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; color: var(--text); font-size: 0.82rem; font-family: var(--sans); width: 100%; outline: none; transition: border-color 0.2s; }
+    input[type=text], input[type=password], input[type=number] { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; color: var(--text); font-size: 0.82rem; font-family: var(--sans); width: 100%; outline: none; transition: border-color 0.2s; }
     input:focus { border-color: var(--accent); }
     input::placeholder { color: var(--text-dim); }
-    .btn { background: rgba(0,255,224,0.1); border: 1px solid var(--accent); color: var(--accent); border-radius: 6px; padding: 9px 16px; font-size: 0.82rem; font-family: var(--mono); cursor: pointer; width: 100%; transition: background 0.2s; letter-spacing: 0.05em; }
+    .btn { background: rgba(0,255,224,0.1); border: 1px solid var(--accent); color: var(--accent); border-radius: 6px; padding: 9px 16px; font-size: 0.82rem; font-family: var(--mono); cursor: pointer; transition: background 0.2s; letter-spacing: 0.05em; }
     .btn:hover { background: rgba(0,255,224,0.18); }
+    .btn.full { width: 100%; }
+    .btn.secondary { border-color: var(--border); color: var(--text-dim); background: none; }
+    .btn.yellow { border-color: var(--yellow); color: var(--yellow); background: rgba(255,209,102,0.08); }
+    .btn.yellow:hover { background: rgba(255,209,102,0.16); }
     .hint { font-size: 0.7rem; color: var(--text-dim); font-family: var(--mono); margin-bottom: 8px; }
     .msg { font-size: 0.75rem; margin-top: 8px; font-family: var(--mono); color: var(--accent); min-height: 1.2em; }
     .msg.error { color: var(--red); }
-    .token-section { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
     .token-row { display: flex; gap: 8px; }
     .token-row input { flex: 1; }
     .token-row .btn { width: auto; white-space: nowrap; }
     .loading { text-align: center; padding: 40px; font-family: var(--mono); font-size: 0.8rem; color: var(--text-dim); letter-spacing: 0.1em; }
+    .buy-banner { display: none; background: rgba(0,255,224,0.06); border: 1px solid var(--accent); border-radius: 6px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.8rem; color: var(--accent); font-family: var(--mono); }
+    .buy-banner.show { display: block; }
+
+    /* スクリーニング条件 */
+    .conditions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+    .condition-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; transition: border-color 0.15s; }
+    .condition-item:hover { border-color: var(--accent); }
+    .condition-item input[type=checkbox] { width: 14px; height: 14px; accent-color: var(--accent); flex-shrink: 0; }
+    .condition-item label { font-size: 0.75rem; color: var(--text); cursor: pointer; line-height: 1.3; }
+    .condition-item.required { border-color: rgba(0,255,224,0.3); }
+    .condition-item.required label { color: var(--accent); }
+    .required-badge { font-size: 0.6rem; color: var(--accent); font-family: var(--mono); margin-left: 4px; }
+
+    /* スクリーニング結果テーブル */
+    .score-bar { display: flex; gap: 2px; }
+    .score-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+    .score-dot.filled { background: var(--accent); }
+    .score-dot.filled.yellow { background: var(--yellow); }
+    .watch-checkbox { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; }
+    .result-count { font-family: var(--mono); font-size: 0.75rem; color: var(--text-dim); margin-bottom: 10px; }
+
+    /* ページ */
+    .page { display: none; }
+    .page.active { display: block; }
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <div class="header-left">
-      <h1>▸ STOCK MONITOR</h1>
-      <div class="subtitle">AUTO UPDATE / 15MIN</div>
-    </div>
-    <div class="updated" id="updated">--:--</div>
+<div class="header">
+  <div class="header-left">
+    <h1>▸ STOCK MONITOR</h1>
+    <div class="subtitle">AUTO UPDATE / 15MIN</div>
   </div>
+  <div class="updated" id="updated">--:--</div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('watch')">監視リスト</button>
+  <button class="tab" onclick="switchTab('screening')">スクリーニング</button>
+</div>
+
+<!-- ===== 監視リストタブ ===== -->
+<div class="page active" id="page-watch">
 
   <div class="buy-banner" id="buyBanner"></div>
 
@@ -101,7 +143,7 @@
     </table>
   </div>
 
-  <div class="token-section" id="tokenSection">
+  <div class="card" id="tokenSection">
     <div class="section-title">🔑 GitHub Token（初回のみ）</div>
     <div class="token-row">
       <input type="password" id="tokenInput" placeholder="ghp_xxxx...">
@@ -110,7 +152,7 @@
     <div class="msg" id="tokenMsg"></div>
   </div>
 
-  <div class="add-section">
+  <div class="card">
     <div class="section-title">＋ 銘柄を追加</div>
     <div class="input-row">
       <input type="text" id="newCode" placeholder="証券コードを入力（例: 8306）">
@@ -118,221 +160,315 @@
     </div>
     <div class="hint">※ 銘柄名・配当・利回りは次回自動実行時に取得されます</div>
     <div class="msg" id="addMsg"></div>
-    <div class="section-title">📨 Telegram テスト送信</div>
-    <div class="input-row">
-      <input type="password" id="tgToken" placeholder="Telegram Bot Token（ghp_とは別）">
-    </div>
-    <div style="margin-bottom:8px;">
-      <input type="text" id="tgChatId" placeholder="Chat ID（例: 1235454170）">
-    </div>
-    <button class="btn" onclick="sendTestTelegram()">SEND TEST</button>
-    <div class="msg" id="tgMsg"></div>    
   </div>
 
-  <script>
-    const RESULT_URL = "https://raw.githubusercontent.com/Asaduki1/stock-monitor/main/data/result.json";
-    const REPO = "Asaduki1/stock-monitor";
+  <div class="card">
+    <div class="section-title">📨 Telegram テスト送信</div>
+    <div class="input-row" style="margin-bottom:8px;">
+      <input type="password" id="tgToken" placeholder="Telegram Bot Token">
+    </div>
+    <input type="text" id="tgChatId" placeholder="Chat ID（例: 1235454170）" style="margin-bottom:8px;">
+    <button class="btn full" onclick="sendTestTelegram()">SEND TEST</button>
+    <div class="msg" id="tgMsg"></div>
+  </div>
 
-    // ローカルに保存している仮表示銘柄
-    const PENDING_KEY = "pending_stocks";
+</div>
 
-    function getPending() {
-      try { return JSON.parse(localStorage.getItem(PENDING_KEY) || "[]"); } catch { return []; }
+<!-- ===== スクリーニングタブ ===== -->
+<div class="page" id="page-screening">
+
+  <div class="card">
+    <div class="section-title">🔍 スクリーニング条件</div>
+
+    <div class="conditions-grid">
+      <div class="condition-item required">
+        <input type="checkbox" id="cond_yield" checked disabled>
+        <label for="cond_yield">利回り 3%以上<span class="required-badge">必須</span></label>
+      </div>
+      <div class="condition-item required">
+        <input type="checkbox" id="cond_payout" checked disabled>
+        <label for="cond_payout">配当性向 30%以下<span class="required-badge">必須</span></label>
+      </div>
+      <div class="condition-item required">
+        <input type="checkbox" id="cond_pbr" checked disabled>
+        <label for="cond_pbr">PBR 1倍割れ<span class="required-badge">必須</span></label>
+      </div>
+      <div class="condition-item">
+        <input type="checkbox" id="cond_ma75" checked>
+        <label for="cond_ma75">75日MA接近</label>
+      </div>
+      <div class="condition-item">
+        <input type="checkbox" id="cond_ma200" checked>
+        <label for="cond_ma200">200日MA接近</label>
+      </div>
+    </div>
+
+    <button class="btn full" onclick="runScreening()">▶ 抽出する</button>
+    <div class="msg" id="screeningMsg"></div>
+  </div>
+
+  <div id="screeningResultWrap" style="display:none">
+    <div class="result-count" id="resultCount"></div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align:left;">監視</th>
+            <th style="text-align:left;">CODE</th>
+            <th style="text-align:left;">銘柄</th>
+            <th>株価</th>
+            <th>利回り</th>
+            <th>性向</th>
+            <th>PBR</th>
+            <th>スコア</th>
+            <th>SIGNAL</th>
+          </tr>
+        </thead>
+        <tbody id="screeningBody"></tbody>
+      </table>
+    </div>
+    <button class="btn yellow full" onclick="registerWatched()" style="margin-top:4px;">✓ チェックした銘柄を監視登録</button>
+    <div class="msg" id="registerMsg"></div>
+  </div>
+
+</div>
+
+<script>
+  const RESULT_URL = "https://raw.githubusercontent.com/Asaduki1/stock-monitor/main/data/result.json";
+  const SCREENING_URL = "https://raw.githubusercontent.com/Asaduki1/stock-monitor/main/data/screening.json";
+  const REPO = "Asaduki1/stock-monitor";
+  const PENDING_KEY = "pending_stocks";
+
+  // ===== タブ切替 =====
+  function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach((t, i) => {
+      t.classList.toggle('active', ['watch','screening'][i] === tab);
+    });
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(`page-${tab}`).classList.add('active');
+  }
+
+  // ===== トークン =====
+  function saveToken() {
+    const t = document.getElementById("tokenInput").value.trim();
+    if (!t) return;
+    localStorage.setItem("gh_token", t);
+    document.getElementById("tokenMsg").textContent = "✓ SAVED";
+    document.getElementById("tokenInput").value = "";
+    setTimeout(() => { document.getElementById("tokenSection").style.display = "none"; }, 800);
+  }
+  function getToken() { return localStorage.getItem("gh_token"); }
+  if (getToken()) document.getElementById("tokenSection").style.display = "none";
+
+  // ===== Pending =====
+  function getPending() { try { return JSON.parse(localStorage.getItem(PENDING_KEY) || "[]"); } catch { return []; } }
+  function savePending(list) { localStorage.setItem(PENDING_KEY, JSON.stringify(list)); }
+
+  // ===== 色クラス =====
+  function colorClass(key, value) {
+    if (key === "rsi") return value <= 35 ? "green" : value >= 70 ? "red" : "";
+    if (key === "divergence") return value <= -10 ? "green" : value >= 10 ? "red" : "";
+    if (key === "yield") return value >= 4.5 ? "green" : "";
+    return "";
+  }
+
+  // ===== 監視リスト描画 =====
+  function renderTable(data) {
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("stockTable").style.display = "table";
+    const liveCodes = new Set(data.map(s => s.code));
+    let pending = getPending().filter(p => !liveCodes.has(p.code));
+    savePending(pending);
+    const buys = data.filter(s => s.signal === "BUY");
+    if (buys.length > 0) {
+      const banner = document.getElementById("buyBanner");
+      banner.classList.add("show");
+      banner.textContent = "🟢 BUYシグナル: " + buys.map(s => `${s.name}(${s.code})`).join(" / ");
     }
-    function savePending(list) {
-      localStorage.setItem(PENDING_KEY, JSON.stringify(list));
-    }
+    const tbody = document.getElementById("tableBody");
+    tbody.innerHTML = "";
+    data.forEach(s => {
+      const tr = document.createElement("tr");
+      if (s.signal === "BUY") tr.classList.add("is-buy");
+      tr.innerHTML = `
+        <td><span class="code">${s.code}</span></td>
+        <td><span class="name">${s.name}</span></td>
+        <td><span class="price">¥${s.price.toLocaleString()}</span></td>
+        <td class="${colorClass('yield', s.yield)}">${s.yield}%</td>
+        <td class="${colorClass('rsi', s.rsi)}">${s.rsi}</td>
+        <td class="${colorClass('divergence', s.divergence)}">${s.divergence}%</td>
+        <td><span class="signal-badge ${s.signal}">${s.signal}</span></td>`;
+      tbody.appendChild(tr);
+    });
+    pending.forEach(p => {
+      const tr = document.createElement("tr");
+      tr.classList.add("is-pending");
+      tr.innerHTML = `
+        <td><span class="code">${p.code}</span></td>
+        <td><span class="name pending">取得待ち...</span></td>
+        <td>--</td><td>--</td><td>--</td><td>--</td>
+        <td><span class="signal-badge PENDING">PENDING</span></td>`;
+      tbody.appendChild(tr);
+    });
+    document.getElementById("updated").textContent = "UPD " + (data[0]?.updated ?? "--");
+  }
 
-    function saveToken() {
-      const t = document.getElementById("tokenInput").value.trim();
-      if (!t) return;
-      localStorage.setItem("gh_token", t);
-      document.getElementById("tokenMsg").textContent = "✓ SAVED";
-      document.getElementById("tokenInput").value = "";
-      setTimeout(() => { document.getElementById("tokenSection").style.display = "none"; }, 800);
-    }
-    function getToken() { return localStorage.getItem("gh_token"); }
-    if (getToken()) document.getElementById("tokenSection").style.display = "none";
-
-    function colorClass(key, value) {
-      if (key === "rsi") return value <= 35 ? "green" : value >= 70 ? "red" : "";
-      if (key === "divergence") return value <= -10 ? "green" : value >= 10 ? "red" : "";
-      if (key === "yield") return value >= 4.5 ? "green" : "";
-      return "";
-    }
-
-    function renderTable(data) {
-      document.getElementById("loading").style.display = "none";
+  // ===== 銘柄追加 =====
+  async function addStock() {
+    const token = getToken();
+    if (!token) { showMsg("addMsg", "先にトークンを設定してください", true); document.getElementById("tokenSection").style.display = "block"; return; }
+    const code = document.getElementById("newCode").value.trim();
+    if (!code) { showMsg("addMsg", "証券コードを入力してください", true); return; }
+    showMsg("addMsg", "ADDING...");
+    try {
+      const res = await fetch(`https://api.github.com/repos/${REPO}/contents/data/master.json`, { headers: { Authorization: `token ${token}` } });
+      const fileData = await res.json();
+      const current = JSON.parse(atob(fileData.content));
+      if (current.find(s => s.code === code)) { showMsg("addMsg", "すでに登録済みのコードです", true); return; }
+      current.push({ code });
+      await fetch(`https://api.github.com/repos/${REPO}/contents/data/master.json`, {
+        method: "PUT",
+        headers: { Authorization: `token ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ message: `add: ${code}`, content: btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(current, null, 2)))), sha: fileData.sha })
+      });
+      const pending = getPending();
+      if (!pending.find(p => p.code === code)) { pending.push({ code }); savePending(pending); }
+      showMsg("addMsg", `✓ ${code} を追加しました`);
+      document.getElementById("newCode").value = "";
       document.getElementById("stockTable").style.display = "table";
-
-      // result.jsonに含まれるコードを記録
-      const liveCodes = new Set(data.map(s => s.code));
-
-      // 取得済みになったpendingは削除
-      let pending = getPending().filter(p => !liveCodes.has(p.code));
-      savePending(pending);
-
-      const buys = data.filter(s => s.signal === "BUY");
-      if (buys.length > 0) {
-        const banner = document.getElementById("buyBanner");
-        banner.classList.add("show");
-        banner.textContent = "🟢 BUYシグナル: " + buys.map(s => `${s.name}(${s.code})`).join(" / ");
-      }
-
+      document.getElementById("loading").style.display = "none";
       const tbody = document.getElementById("tableBody");
-      tbody.innerHTML = "";
+      const tr = document.createElement("tr");
+      tr.classList.add("is-pending");
+      tr.id = `pending-${code}`;
+      tr.innerHTML = `<td><span class="code">${code}</span></td><td><span class="name pending">取得待ち...</span></td><td>--</td><td>--</td><td>--</td><td>--</td><td><span class="signal-badge PENDING">PENDING</span></td>`;
+      tbody.appendChild(tr);
+    } catch(e) { showMsg("addMsg", "エラー: トークンを確認してください", true); }
+  }
 
-      // 通常データ
-      data.forEach(s => {
-        const tr = document.createElement("tr");
-        if (s.signal === "BUY") tr.classList.add("is-buy");
-        tr.innerHTML = `
-          <td><span class="code">${s.code}</span></td>
-          <td><span class="name">${s.name}</span></td>
-          <td><span class="price">¥${s.price.toLocaleString()}</span></td>
-          <td class="${colorClass('yield', s.yield)}">${s.yield}%</td>
-          <td class="${colorClass('rsi', s.rsi)}">${s.rsi}</td>
-          <td class="${colorClass('divergence', s.divergence)}">${s.divergence}%</td>
-          <td><span class="signal-badge ${s.signal}">${s.signal}</span></td>
-        `;
-        tbody.appendChild(tr);
+  // ===== スクリーニング実行 =====
+  let screeningData = [];
+
+  async function runScreening() {
+    showMsg("screeningMsg", "LOADING...");
+    document.getElementById("screeningResultWrap").style.display = "none";
+    try {
+      const res = await fetch(SCREENING_URL + "?t=" + Date.now());
+      screeningData = await res.json();
+
+      const useMa75 = document.getElementById("cond_ma75").checked;
+      const useMa200 = document.getElementById("cond_ma200").checked;
+
+      // フィルタリング（必須3条件は常に適用）
+      let filtered = screeningData.filter(s => {
+        if (!s.conditions["利回り3%以上"]) return false;
+        if (!s.conditions["配当性向30%以下"]) return false;
+        if (!s.conditions["PBR1倍割れ"]) return false;
+        if (useMa75 && !s.conditions["75MA接近"]) return false;
+        if (useMa200 && !s.conditions["200MA接近"]) return false;
+        return true;
       });
 
-      // 仮表示（取得待ち）
-      pending.forEach(p => {
-        const tr = document.createElement("tr");
-        tr.classList.add("is-pending");
-        tr.innerHTML = `
-          <td><span class="code">${p.code}</span></td>
-          <td><span class="name pending">取得待ち...</span></td>
-          <td>--</td>
-          <td>--</td>
-          <td>--</td>
-          <td>--</td>
-          <td><span class="signal-badge PENDING">PENDING</span></td>
-        `;
-        tbody.appendChild(tr);
+      filtered.sort((a, b) => b.score - a.score);
+      renderScreening(filtered);
+      showMsg("screeningMsg", "");
+    } catch(e) {
+      showMsg("screeningMsg", "データ取得失敗。screening.jsonが生成されているか確認してください", true);
+    }
+  }
+
+  function renderScreening(data) {
+    const tbody = document.getElementById("screeningBody");
+    tbody.innerHTML = "";
+
+    data.forEach(s => {
+      const tr = document.createElement("tr");
+      const isBuy = s.signal === "BUY";
+      if (isBuy) tr.classList.add("is-buy");
+
+      const dots = Array.from({length: 5}, (_, i) => {
+        const filled = i < s.score;
+        const cls = filled ? (isBuy ? "filled" : "filled yellow") : "";
+        return `<div class="score-dot ${cls}"></div>`;
+      }).join("");
+
+      tr.innerHTML = `
+        <td><input type="checkbox" class="watch-checkbox" data-code="${s.code}"></td>
+        <td><span class="code">${s.code}</span></td>
+        <td><span class="name" style="font-size:0.8rem;">${s.name}</span></td>
+        <td><span class="price">¥${s.price.toLocaleString()}</span></td>
+        <td class="green">${s.yield}%</td>
+        <td>${s.payout ?? "--"}%</td>
+        <td>${s.pbr ?? "--"}</td>
+        <td><div class="score-bar">${dots}</div></td>
+        <td><span class="signal-badge ${s.signal}">${s.signal}</span></td>`;
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById("resultCount").textContent = `${data.length}銘柄が条件を満たしました`;
+    document.getElementById("screeningResultWrap").style.display = "block";
+    document.getElementById("registerMsg").textContent = "";
+  }
+
+  // ===== 監視登録 =====
+  async function registerWatched() {
+    const token = getToken();
+    if (!token) { showMsg("registerMsg", "先にトークンをセットしてください（監視リストタブ）", true); return; }
+    const checked = [...document.querySelectorAll(".watch-checkbox:checked")].map(el => el.dataset.code);
+    if (checked.length === 0) { showMsg("registerMsg", "銘柄を選択してください", true); return; }
+    showMsg("registerMsg", "登録中...");
+    try {
+      const res = await fetch(`https://api.github.com/repos/${REPO}/contents/data/master.json`, { headers: { Authorization: `token ${token}` } });
+      const fileData = await res.json();
+      const current = JSON.parse(atob(fileData.content));
+      let added = 0;
+      checked.forEach(code => {
+        if (!current.find(s => s.code === code)) { current.push({ code }); added++; }
       });
+      if (added === 0) { showMsg("registerMsg", "選択した銘柄はすでに登録済みです", true); return; }
+      await fetch(`https://api.github.com/repos/${REPO}/contents/data/master.json`, {
+        method: "PUT",
+        headers: { Authorization: `token ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ message: `add stocks from screening`, content: btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(current, null, 2)))), sha: fileData.sha })
+      });
+      const pending = getPending();
+      checked.forEach(code => { if (!pending.find(p => p.code === code)) pending.push({ code }); });
+      savePending(pending);
+      showMsg("registerMsg", `✓ ${added}銘柄を監視登録しました！次回更新で反映されます`);
+    } catch(e) { showMsg("registerMsg", "エラー: トークンを確認してください", true); }
+  }
 
-      document.getElementById("updated").textContent = "UPD " + (data[0]?.updated ?? "--");
-    }
+  // ===== Telegram =====
+  async function sendTestTelegram() {
+    const token = document.getElementById("tgToken").value.trim();
+    const chatId = document.getElementById("tgChatId").value.trim();
+    if (!token || !chatId) { showMsg("tgMsg", "TokenとChat IDを入力してください", true); return; }
+    showMsg("tgMsg", "SENDING...");
+    try {
+      const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text: "🟢 Stock Monitor テスト送信\n正常に通知が届いています！" })
+      });
+      const data = await res.json();
+      if (data.ok) { showMsg("tgMsg", "✓ 送信成功！Telegramを確認してください"); }
+      else { showMsg("tgMsg", "エラー: " + data.description, true); }
+    } catch(e) { showMsg("tgMsg", "送信失敗: ネットワークエラー", true); }
+  }
 
-    async function addStock() {
-      const token = getToken();
-      if (!token) {
-        showMsg("addMsg", "先にトークンを設定してください", true);
-        document.getElementById("tokenSection").style.display = "block";
-        return;
-      }
-      const code = document.getElementById("newCode").value.trim();
-      if (!code) { showMsg("addMsg", "証券コードを入力してください", true); return; }
+  // ===== ユーティリティ =====
+  function showMsg(id, text, isError=false) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = text;
+    el.className = "msg" + (isError ? " error" : "");
+  }
 
-      showMsg("addMsg", "ADDING...");
-      try {
-        const res = await fetch(`https://api.github.com/repos/${REPO}/contents/data/master.json`, {
-          headers: { Authorization: `token ${token}` }
-        });
-        const fileData = await res.json();
-        const current = JSON.parse(atob(fileData.content));
-
-        if (current.find(s => s.code === code)) {
-          showMsg("addMsg", "すでに登録済みのコードです", true); return;
-        }
-
-        current.push({ code });
-
-        await fetch(`https://api.github.com/repos/${REPO}/contents/data/master.json`, {
-          method: "PUT",
-          headers: { Authorization: `token ${token}`, "Content-Type": "application/json" },
-          body: JSON.stringify({
-            message: `add: ${code}`,
-            content: btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(current, null, 2)))),
-            sha: fileData.sha
-          })
-        });
-
-        // 仮表示リストに追加
-        const pending = getPending();
-        if (!pending.find(p => p.code === code)) {
-          pending.push({ code });
-          savePending(pending);
-        }
-
-        showMsg("addMsg", `✓ ${code} を追加しました（次回更新で反映）`);
-        document.getElementById("newCode").value = "";
-
-        // テーブルを再描画して仮表示を追加
-        const tbody = document.getElementById("tableBody");
-        const tr = document.createElement("tr");
-        tr.classList.add("is-pending");
-        tr.id = `pending-${code}`;
-        tr.innerHTML = `
-          <td><span class="code">${code}</span></td>
-          <td><span class="name pending">取得待ち...</span></td>
-          <td>--</td>
-          <td>--</td>
-          <td>--</td>
-          <td>--</td>
-          <td><span class="signal-badge PENDING">PENDING</span></td>
-        `;
-        tbody.appendChild(tr);
-        
-        document.getElementById("stockTable").style.display = "table";
-        document.getElementById("loading").style.display = "none";
-        
-      } catch(e) {
-        showMsg("addMsg", "エラー: トークンを確認してください", true);
-      }
-    }
-
-    function showMsg(id, text, isError=false) {
-      const el = document.getElementById(id);
-      el.textContent = text;
-      el.className = "msg" + (isError ? " error" : "");
-    }
-
-    let currentData = [];
-
-    function loadData() {
-      fetch(RESULT_URL + "?t=" + Date.now())
-        .then(r => r.json())
-        .then(data => {
-          currentData = data;
-          renderTable(data);
-        })
-        .catch(() => {
-          document.getElementById("loading").textContent = "DATA LOAD FAILED";
-        });
-    }
-
-    loadData();
-
-    async function sendTestTelegram() {
-      const token = document.getElementById("tgToken").value.trim();
-      const chatId = document.getElementById("tgChatId").value.trim();
-      if (!token || !chatId) {
-        showMsg("tgMsg", "TokenとChat IDを入力してください", true); return;
-      }
-      showMsg("tgMsg", "SENDING...");
-      try {
-        const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            chat_id: chatId,
-            text: "🟢 Stock Monitor テスト送信\n正常に通知が届いています！"
-          })
-        });
-        const data = await res.json();
-        if (data.ok) {
-          showMsg("tgMsg", "✓ 送信成功！Telegramを確認してください");
-        } else {
-          showMsg("tgMsg", "エラー: " + data.description, true);
-        }
-      } catch(e) {
-        showMsg("tgMsg", "送信失敗: ネットワークエラー", true);
-      }
-    }    
-  </script>
+  // ===== 初期ロード =====
+  fetch(RESULT_URL + "?t=" + Date.now())
+    .then(r => r.json())
+    .then(renderTable)
+    .catch(() => { document.getElementById("loading").textContent = "DATA LOAD FAILED"; });
+</script>
 </body>
 </html>
