@@ -28,6 +28,8 @@ jobs:
         run: python scripts/fetch_stock.py
 
       - name: スクリーニング実行
+        env:
+          JQUANTS_REFRESH_TOKEN: ${{ secrets.JQUANTS_REFRESH_TOKEN }}
         run: python scripts/screening.py
 
       - name: 結果をコミット
