@@ -9,7 +9,7 @@
     "yield": 3.13,
     "dividend": 4.8,
     "signal": "WAIT",
-    "updated": "2026-02-28 08:29"
+    "updated": "2026-02-28 08:39"
   },
   {
     "code": "8058",
@@ -21,7 +21,7 @@
     "yield": 1.89,
     "dividend": 100,
     "signal": "WAIT",
-    "updated": "2026-02-28 08:29"
+    "updated": "2026-02-28 08:39"
   },
   {
     "code": "7203",
@@ -33,7 +33,7 @@
     "yield": 1.96,
     "dividend": 75,
     "signal": "WAIT",
-    "updated": "2026-02-28 08:29"
+    "updated": "2026-02-28 08:39"
   },
   {
     "code": "2914",
@@ -45,7 +45,7 @@
     "yield": 4.04,
     "dividend": 242,
     "signal": "WAIT",
-    "updated": "2026-02-28 08:29"
+    "updated": "2026-02-28 08:39"
   },
   {
     "code": "8306",
@@ -57,7 +57,7 @@
     "yield": 1.38,
     "dividend": 41,
     "signal": "WAIT",
-    "updated": "2026-02-28 08:29"
+    "updated": "2026-02-28 08:39"
   },
   {
     "code": "7974",
@@ -69,7 +69,7 @@
     "yield": 1.07,
     "dividend": 96,
     "signal": "WAIT",
-    "updated": "2026-02-28 08:29"
+    "updated": "2026-02-28 08:39"
   },
   {
     "code": "2502",
@@ -81,7 +81,7 @@
     "yield": 3.06,
     "dividend": 52,
     "signal": "WAIT",
-    "updated": "2026-02-28 08:29"
+    "updated": "2026-02-28 08:39"
   },
   {
     "code": "4064",
@@ -93,7 +93,7 @@
     "yield": 2.53,
     "dividend": 80,
     "signal": "WAIT",
-    "updated": "2026-02-28 08:29"
+    "updated": "2026-02-28 08:39"
   },
   {
     "code": "5406",
@@ -105,6 +105,6 @@
     "yield": 3.52,
     "dividend": 80,
     "signal": "WAIT",
-    "updated": "2026-02-28 08:29"
+    "updated": "2026-02-28 08:39"
   }
 ]
