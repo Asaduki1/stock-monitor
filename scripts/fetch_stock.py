@@ -127,6 +127,7 @@ def main():
             "divergence": divergence,
             "rsi": rsi,
             "yield": yield_rate,
+            "dividend": dividend,
             "signal": signal,
             "updated": datetime.now().strftime("%Y-%m-%d %H:%M")
         }
