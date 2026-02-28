@@ -6,45 +6,35 @@ from datetime import datetime, timedelta
 
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
-REFRESH_TOKEN = os.environ.get("JQUANTS_REFRESH_TOKEN")
+API_KEY = os.environ.get("JQUANTS_REFRESH_TOKEN")
 API_URL = "https://api.jquants.com"
 
-# ===== IDトークン取得 =====
-def get_id_token():
-    res = requests.post(
-        f"{API_URL}/v1/token/auth_refresh",
-        params={"refreshtoken": REFRESH_TOKEN}
-    )
-    print(f"認証: {res.status_code} / {res.text[:200]}")
-    return res.json()["idToken"]
-
-def get_headers(id_token):
-    return {"Authorization": f"Bearer {id_token}"}
+def get_headers():
+    return {"x-api-key": API_KEY}
 
 # ===== 株価取得 =====
-def get_prices(id_token, code):
+def get_prices(code):
     today = datetime.now()
-    from_date = (today - timedelta(days=300)).strftime("%Y-%m-%d")
-    to_date = today.strftime("%Y-%m-%d")
+    from_date = (today - timedelta(days=300)).strftime("%Y%m%d")
+    to_date = today.strftime("%Y%m%d")
     res = requests.get(
-        f"{API_URL}/v1/prices/daily_quotes",
-        headers=get_headers(id_token),
+        f"{API_URL}/v2/equities/bars/daily",
+        headers=get_headers(),
         params={"code": code, "from": from_date, "to": to_date}
     )
-    print(f"  株価API: {res.status_code}")
-    data = res.json().get("daily_quotes", [])
+    print(f"  株価API: {res.status_code} / {res.text[:200]}")
+    data = res.json().get("bars", [])
     if not data:
         return None
     df = pd.DataFrame(data)
-    df = df[df["AdjustmentClose"].notna()]
-    df = df.sort_values("Date")
+    df = df.sort_values("date")
     return df
 
 # ===== 財務情報取得 =====
-def get_financials(id_token, code):
+def get_financials(code):
     res = requests.get(
         f"{API_URL}/v1/fins/statements",
-        headers=get_headers(id_token),
+        headers=get_headers(),
         params={"code": code}
     )
     data = res.json().get("statements", [])
@@ -56,15 +46,13 @@ def get_financials(id_token, code):
         "FYFinancialStatements_Consolidated_IFRS",
         "FYFinancialStatements_Consolidated_US"
     ]]
-    if not annual:
-        annual = data
-    return annual[-1]
+    return annual[-1] if annual else data[-1]
 
 # ===== 銘柄情報取得 =====
-def get_stock_info(id_token, code):
+def get_stock_info(code):
     res = requests.get(
         f"{API_URL}/v1/listed/info",
-        headers=get_headers(id_token),
+        headers=get_headers(),
         params={"code": code}
     )
     data = res.json().get("info", [])
@@ -72,7 +60,7 @@ def get_stock_info(id_token, code):
 
 # ===== 指標計算 =====
 def calc_indicators(df):
-    close = df["AdjustmentClose"].astype(float)
+    close = df["close"].astype(float)
     price = round(close.iloc[-1], 1)
     ma25 = round(close.rolling(25).mean().iloc[-1], 1) if len(close) >= 25 else None
     divergence = round((price - ma25) / ma25 * 100, 2) if ma25 else None
@@ -94,8 +82,7 @@ def send_telegram(message):
 
 # ===== メイン処理 =====
 def main():
-    print("J-Quants認証中...")
-    id_token = get_id_token()
+    print("J-Quants V2 API使用中...")
 
     with open("data/master.json", "r", encoding="utf-8") as f:
         stocks = json.load(f)
@@ -108,17 +95,17 @@ def main():
         code = stock["code"]
         print(f"処理中: {code}")
         try:
-            info = get_stock_info(id_token, code)
+            info = get_stock_info(code)
             name = stock.get("name") or (info.get("CompanyName") if info else code)
 
-            df = get_prices(id_token, code)
+            df = get_prices(code)
             if df is None or len(df) < 25:
                 print(f"  {code}: 株価データ不足")
                 continue
 
             price, ma25, divergence, rsi = calc_indicators(df)
 
-            fins = get_financials(id_token, code)
+            fins = get_financials(code)
             dividend = stock.get("dividend", 0)
             avg_yield = stock.get("avg_yield", 3.0)
 
