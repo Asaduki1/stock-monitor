@@ -8,11 +8,8 @@ JQUANTS_REFRESH_TOKEN = os.environ.get("JQUANTS_REFRESH_TOKEN")
 
 # ===== J-Quants認証 =====
 def get_id_token():
-    res = requests.post(
-        "https://api.jquants.com/v1/token/auth_refresh",
-        params={"refreshtoken": JQUANTS_REFRESH_TOKEN}
-    )
-    return res.json()["idToken"]
+    # APIキー方式
+    return JQUANTS_REFRESH_TOKEN
 
 # ===== 全銘柄リスト取得 =====
 def get_all_stocks(id_token):
