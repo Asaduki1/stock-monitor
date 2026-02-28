@@ -7,15 +7,22 @@ from datetime import datetime, timedelta
 # ===== 設定 =====
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
-JQUANTS_REFRESH_TOKEN = os.environ.get("JQUANTS_REFRESH_TOKEN")
-API_KEY = os.environ.get("JQUANTS_REFRESH_TOKEN")  # APIキーとして使用
+API_KEY = os.environ.get("JQUANTS_REFRESH_TOKEN")
 
 def get_headers():
     return {"x-api-key": API_KEY}
-# ===== J-Quants認証 =====
-def get_id_token():
-    # APIキー方式
-    return JQUANTS_REFRESH_TOKEN
+
+# ===== 銘柄情報取得 =====
+def get_stock_info(code):
+    res = requests.get(
+        "https://api.jquants.com/v2/listed/info",
+        headers=get_headers(),
+        params={"code": code}
+    )
+    data = res.json().get("info", [])
+    if not data:
+        return None
+    return data[0]
 
 # ===== 株価取得 =====
 def get_prices(code):
@@ -27,7 +34,7 @@ def get_prices(code):
         headers=get_headers(),
         params={"code": code, "from": from_date, "to": to_date}
     )
-    print(f"  株価API: {res.status_code} / {res.text[:200]}")
+    print(f"  株価API: {res.status_code}")
     data = res.json().get("daily_quotes", [])
     if not data:
         return None
@@ -35,7 +42,8 @@ def get_prices(code):
     df = df[df["AdjustmentClose"].notna()]
     df = df.sort_values("Date")
     return df
-    
+
+# ===== 財務情報取得 =====
 def get_financials(code):
     res = requests.get(
         "https://api.jquants.com/v2/fins/statements",
@@ -55,66 +63,17 @@ def get_financials(code):
         annual = data
     return annual[-1]
 
-def get_stock_info(code):
-    res = requests.get(
-        "https://api.jquants.com/v2/listed/info",
-        headers=get_headers(),
-        params={"code": code}
-    )
-    data = res.json().get("info", [])
-    if not data:
-        return None
-    return data[0]
-    
-# ===== 財務情報取得 =====
-def get_financials(id_token, code):
-    res = requests.get(
-        f"https://api.jquants.com/v1/fins/statements",
-        headers={"Authorization": f"Bearer {id_token}"},
-        params={"code": code}
-    )
-    data = res.json().get("statements", [])
-    if not data:
-        return None
-    # 最新の本決算を取得
-    annual = [d for d in data if d.get("TypeOfDocument") in [
-        "FYFinancialStatements_Consolidated_JP",
-        "FYFinancialStatements_NonConsolidated_JP",
-        "FYFinancialStatements_Consolidated_IFRS",
-        "FYFinancialStatements_Consolidated_US"
-    ]]
-    if not annual:
-        annual = data
-    return annual[-1]
-
-# ===== 銘柄情報取得 =====
-def get_stock_info(id_token, code):
-    res = requests.get(
-        f"https://api.jquants.com/v1/listed/info",
-        headers={"Authorization": f"Bearer {id_token}"},
-        params={"code": code}
-    )
-    data = res.json().get("info", [])
-    if not data:
-        return None
-    return data[0]
-
 # ===== 指標計算 =====
 def calc_indicators(df):
     close = df["AdjustmentClose"].astype(float)
     price = round(close.iloc[-1], 1)
-
-    # 25日移動平均・乖離率
     ma25 = round(close.rolling(25).mean().iloc[-1], 1) if len(close) >= 25 else None
     divergence = round((price - ma25) / ma25 * 100, 2) if ma25 else None
-
-    # RSI（14日）
     delta = close.diff()
     gain = delta.clip(lower=0).rolling(14).mean()
     loss = -delta.clip(upper=0).rolling(14).mean()
     rs = gain / loss
     rsi = round((100 - (100 / (1 + rs))).iloc[-1], 1) if len(close) >= 14 else None
-
     return price, ma25, divergence, rsi
 
 # ===== Telegram通知 =====
@@ -142,25 +101,22 @@ def main():
         try:
             # 銘柄情報
             info = get_stock_info(code)
-            df = get_prices(code)
-            fins = get_financials(code)
             name = stock.get("name") or (info.get("CompanyName") if info else code)
 
             # 株価データ
-            df = get_prices(id_token, code)
+            df = get_prices(code)
             if df is None or len(df) < 25:
-                print(f"  {code}: 株価データ不足")
+                print(f"  {code}: 株価データ不足 ({len(df) if df is not None else 0}件)")
                 continue
 
             price, ma25, divergence, rsi = calc_indicators(df)
 
             # 財務データ
-            fins = get_financials(id_token, code)
+            fins = get_financials(code)
             dividend = stock.get("dividend", 0)
             avg_yield = stock.get("avg_yield", 3.0)
 
             if fins:
-                # J-Quantsから配当取得
                 div_raw = fins.get("AnnualDividendPerShare")
                 if div_raw and float(div_raw) > 0:
                     dividend = round(float(div_raw), 2)
@@ -195,6 +151,7 @@ def main():
                 "updated": datetime.now().strftime("%Y-%m-%d %H:%M")
             }
             results.append(result)
+            print(f"  {code}: 株価{price}円 利回り{yield_rate}% RSI{rsi} 乖離率{divergence}% → {signal}")
 
             if signal == "BUY":
                 new_buys.append(f"🟢 {name}({code})\n株価:{price}円 RSI:{rsi} 乖離率:{divergence}% 利回り:{yield_rate}%")
@@ -205,7 +162,7 @@ def main():
             print(f"  {code} エラー: {e}")
             continue
 
-    # master.json更新（配当情報を保存）
+    # master.json更新
     with open("data/master.json", "w", encoding="utf-8") as f:
         json.dump(stocks, f, ensure_ascii=False, indent=2)
 
