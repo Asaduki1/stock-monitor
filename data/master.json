@@ -1,11 +1,56 @@
 [
-  { "code": "9432", "name": "NTT", "dividend": 4.8, "avg_yield": 3.8 },
-  { "code": "8058", "name": "三菱商事", "dividend": 100, "avg_yield": 3.2 },
-  { "code": "7203", "name": "トヨタ", "dividend": 75, "avg_yield": 3.0 },
-  { "code": "2914", "name": "JT", "dividend": 242, "avg_yield": 3.9 },
-  { "code": "8306", "name": "三菱UFJ", "dividend": 41, "avg_yield": 3.5 },
-  { "code": "7974", "name": "任天堂", "dividend": 96, "avg_yield": 1.8 },
-  { "code": "2502", "name": "アサヒグループ", "dividend": 52, "avg_yield": 2.8 },
-  { "code": "4064", "name": "日本カーバイド工業", "dividend": 80, "avg_yield": 3.0 },
-  { "code": "5406", "name": "神戸製鋼所", "dividend": 80, "avg_yield": 3.2 }
+  {
+    "code": "9432",
+    "name": "NTT",
+    "dividend": 4.8,
+    "avg_yield": 3.8
+  },
+  {
+    "code": "8058",
+    "name": "三菱商事",
+    "dividend": 100,
+    "avg_yield": 3.2
+  },
+  {
+    "code": "7203",
+    "name": "トヨタ",
+    "dividend": 75,
+    "avg_yield": 3.0
+  },
+  {
+    "code": "2914",
+    "name": "JT",
+    "dividend": 242,
+    "avg_yield": 3.9
+  },
+  {
+    "code": "8306",
+    "name": "三菱UFJ",
+    "dividend": 41,
+    "avg_yield": 3.5
+  },
+  {
+    "code": "7974",
+    "name": "任天堂",
+    "dividend": 96,
+    "avg_yield": 1.8
+  },
+  {
+    "code": "2502",
+    "name": "アサヒグループ",
+    "dividend": 52,
+    "avg_yield": 2.8
+  },
+  {
+    "code": "4064",
+    "name": "日本カーバイド工業",
+    "dividend": 80,
+    "avg_yield": 3.0
+  },
+  {
+    "code": "5406",
+    "name": "神戸製鋼所",
+    "dividend": 80,
+    "avg_yield": 3.2
+  }
 ]
