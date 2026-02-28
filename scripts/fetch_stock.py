@@ -8,23 +8,26 @@ from datetime import datetime, timedelta
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
 JQUANTS_REFRESH_TOKEN = os.environ.get("JQUANTS_REFRESH_TOKEN")
+API_KEY = os.environ.get("JQUANTS_REFRESH_TOKEN")  # APIキーとして使用
 
+def get_headers():
+    return {"x-api-key": API_KEY}
 # ===== J-Quants認証 =====
 def get_id_token():
     # APIキー方式
     return JQUANTS_REFRESH_TOKEN
 
 # ===== 株価取得 =====
-def get_prices(id_token, code):
+def get_prices(code):
     today = datetime.now()
     from_date = (today - timedelta(days=300)).strftime("%Y-%m-%d")
     to_date = today.strftime("%Y-%m-%d")
     res = requests.get(
-        "https://api.jquants.com/v1/prices/daily_quotes",
-        headers={"Authorization": f"Bearer {id_token}"},
+        "https://api.jquants.com/v2/prices/daily_quotes",
+        headers=get_headers(),
         params={"code": code, "from": from_date, "to": to_date}
     )
-    print(f"  株価API: {res.status_code} / {res.text[:300]}")
+    print(f"  株価API: {res.status_code} / {res.text[:200]}")
     data = res.json().get("daily_quotes", [])
     if not data:
         return None
@@ -32,7 +35,37 @@ def get_prices(id_token, code):
     df = df[df["AdjustmentClose"].notna()]
     df = df.sort_values("Date")
     return df
+    
+def get_financials(code):
+    res = requests.get(
+        "https://api.jquants.com/v2/fins/statements",
+        headers=get_headers(),
+        params={"code": code}
+    )
+    data = res.json().get("statements", [])
+    if not data:
+        return None
+    annual = [d for d in data if d.get("TypeOfDocument") in [
+        "FYFinancialStatements_Consolidated_JP",
+        "FYFinancialStatements_NonConsolidated_JP",
+        "FYFinancialStatements_Consolidated_IFRS",
+        "FYFinancialStatements_Consolidated_US"
+    ]]
+    if not annual:
+        annual = data
+    return annual[-1]
 
+def get_stock_info(code):
+    res = requests.get(
+        "https://api.jquants.com/v2/listed/info",
+        headers=get_headers(),
+        params={"code": code}
+    )
+    data = res.json().get("info", [])
+    if not data:
+        return None
+    return data[0]
+    
 # ===== 財務情報取得 =====
 def get_financials(id_token, code):
     res = requests.get(
@@ -93,8 +126,7 @@ def send_telegram(message):
 
 # ===== メイン処理 =====
 def main():
-    print("J-Quants認証中...")
-    id_token = get_id_token()
+    print("J-Quants V2 API使用中...")
 
     with open("data/master.json", "r", encoding="utf-8") as f:
         stocks = json.load(f)
@@ -109,7 +141,9 @@ def main():
 
         try:
             # 銘柄情報
-            info = get_stock_info(id_token, code)
+            info = get_stock_info(code)
+            df = get_prices(code)
+            fins = get_financials(code)
             name = stock.get("name") or (info.get("CompanyName") if info else code)
 
             # 株価データ
