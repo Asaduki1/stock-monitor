@@ -1,103 +1,134 @@
-import yfinance as yf
 import json
-import time
-from datetime import datetime
+import requests
+import pandas as pd
+import os
+from datetime import datetime, timedelta
 
-STOCK_CODES = [
-    "1332","1333","1605","1721","1801","1802","1803","1808","1812","1925",
-    "1928","2002","2269","2282","2413","2432","2501","2502","2503","2531",
-    "2593","2651","2702","2768","2801","2802","2871","2897","2914","3086",
-    "3088","3099","3101","3105","3116","3141","3197","3288","3382","3402",
-    "3404","3407","3433","3436","3481","3563","3659","3861","3863","3865",
-    "4004","4005","4021","4042","4043","4061","4063","4064","4091","4183",
-    "4188","4208","4272","4324","4385","4452","4502","4503","4506","4507",
-    "4519","4523","4527","4543","4568","4578","4661","4689","4704","4751",
-    "4755","4812","4901","4902","4911","5001","5002","5019","5020","5101",
-    "5105","5108","5110","5201","5202","5214","5232","5233","5301","5332",
-    "5333","5401","5406","5407","5411","5413","5414","5418","5423","5440",
-    "5463","5471","5480","5486","5541","5631","5706","5707","5711","5713",
-    "5714","5715","5726","5727","5741","5801","5802","5803","5831","5901",
-    "5938","5949","6103","6178","6201","6268","6273","6301","6302","6305",
-    "6326","6361","6367","6383","6395","6412","6417","6460","6471","6472",
-    "6473","6474","6479","6501","6503","6504","6506","6526","6532","6586",
-    "6594","6645","6674","6702","6706","6724","6728","6752","6753","6758",
-    "6762","6770","6857","6861","6902","6954","6971","6981","7003","7011",
-    "7012","7013","7201","7202","7203","7205","7211","7261","7267","7269",
-    "7270","7272","7282","7731","7733","7735","7741","7751","7752","7762",
-    "7832","7974","8001","8002","8003","8004","8005","8006","8007","8008",
-    "8031","8035","8053","8058","8063","8064","8065","8066","8267","8282",
-    "8301","8304","8305","8306","8308","8309","8316","8411","8473","8593",
-    "8601","8602","8604","8630","8697","8725","8750","8766","8795","8801",
-    "8802","8803","8804","8830","9001","9003","9005","9006","9007","9008",
-    "9009","9020","9021","9022","9064","9101","9102","9104","9107","9201",
-    "9202","9432","9433","9434","9501","9502","9503","9504","9531","9532",
-    "9613","9681","9684","9697","9735","9766","9983","9984"
-]
+JQUANTS_REFRESH_TOKEN = os.environ.get("JQUANTS_REFRESH_TOKEN")
 
-def score_stock(code):
+# ===== J-Quants認証 =====
+def get_id_token():
+    res = requests.post(
+        "https://api.jquants.com/v1/token/auth_refresh",
+        params={"refreshtoken": JQUANTS_REFRESH_TOKEN}
+    )
+    return res.json()["idToken"]
+
+# ===== 全銘柄リスト取得 =====
+def get_all_stocks(id_token):
+    res = requests.get(
+        "https://api.jquants.com/v1/listed/info",
+        headers={"Authorization": f"Bearer {id_token}"}
+    )
+    data = res.json().get("info", [])
+    # 東証プライム・スタンダード・グロースのみ
+    return [s for s in data if s.get("MarketCodeName") in [
+        "プライム（内国株式）",
+        "スタンダード（内国株式）"
+    ]]
+
+# ===== 株価取得 =====
+def get_prices(id_token, code):
+    today = datetime.now()
+    from_date = (today - timedelta(days=300)).strftime("%Y-%m-%d")
+    to_date = today.strftime("%Y-%m-%d")
+    res = requests.get(
+        "https://api.jquants.com/v1/prices/daily_quotes",
+        headers={"Authorization": f"Bearer {id_token}"},
+        params={"code": code, "from": from_date, "to": to_date}
+    )
+    data = res.json().get("daily_quotes", [])
+    if not data:
+        return None
+    df = pd.DataFrame(data)
+    df = df[df["AdjustmentClose"].notna()]
+    df = df.sort_values("Date")
+    return df
+
+# ===== 財務情報取得 =====
+def get_financials(id_token, code):
+    res = requests.get(
+        "https://api.jquants.com/v1/fins/statements",
+        headers={"Authorization": f"Bearer {id_token}"},
+        params={"code": code}
+    )
+    data = res.json().get("statements", [])
+    if not data:
+        return None
+    annual = [d for d in data if d.get("TypeOfDocument") in [
+        "FYFinancialStatements_Consolidated_JP",
+        "FYFinancialStatements_NonConsolidated_JP",
+        "FYFinancialStatements_Consolidated_IFRS",
+        "FYFinancialStatements_Consolidated_US"
+    ]]
+    if not annual:
+        annual = data
+    return annual[-1]
+
+# ===== 指標計算 =====
+def calc_indicators(df):
+    close = df["AdjustmentClose"].astype(float)
+    price = round(close.iloc[-1], 1)
+    ma75 = round(close.rolling(75).mean().iloc[-1], 1) if len(close) >= 75 else None
+    ma200 = round(close.rolling(200).mean().iloc[-1], 1) if len(close) >= 200 else None
+    div75 = round((price - ma75) / ma75 * 100, 2) if ma75 else None
+    div200 = round((price - ma200) / ma200 * 100, 2) if ma200 else None
+    return price, div75, div200
+
+# ===== スコアリング =====
+def score_stock(id_token, stock_info):
+    code = stock_info["Code"]
+    name = stock_info.get("CompanyName", code)
+
     try:
-        ticker = yf.Ticker(f"{code}.T")
-        info = ticker.info
-        hist = ticker.history(period="1y")
-
-        if hist.empty or len(hist) < 50:
+        df = get_prices(id_token, code)
+        if df is None or len(df) < 50:
             return None
 
-        price = hist["Close"].iloc[-1]
+        price, div75, div200 = calc_indicators(df)
         if price <= 0:
+            return None
+
+        fins = get_financials(id_token, code)
+        if not fins:
             return None
 
         score = 0
         conditions = {}
 
-        # 1. 配当利回り3%以上（yfinanceは小数で返すので100倍不要な場合がある）
-        div_yield = info.get("dividendYield", 0) or 0
-        # 1より大きい場合はすでに%表記なのでそのまま使う
-        div_yield_pct = round(div_yield if div_yield > 1 else div_yield * 100, 2)
-        conditions["利回り3%以上"] = div_yield_pct >= 3.0
+        # 1. 配当利回り3%以上
+        div_per_share = fins.get("AnnualDividendPerShare")
+        div_yield = 0
+        if div_per_share and float(div_per_share) > 0:
+            div_yield = round(float(div_per_share) / price * 100, 2)
+        conditions["利回り3%以上"] = int(div_yield >= 3.0)
         if conditions["利回り3%以上"]: score += 1
 
         # 2. 配当性向30%以下
-        payout = info.get("payoutRatio", None)
-        payout_pct = round(payout * 100, 1) if payout else None
-        conditions["配当性向30%以下"] = payout_pct is not None and payout_pct <= 30
+        payout = fins.get("PayoutRatio")
+        payout_pct = round(float(payout), 1) if payout and float(payout) > 0 else None
+        conditions["配当性向30%以下"] = int(payout_pct is not None and payout_pct <= 30)
         if conditions["配当性向30%以下"]: score += 1
 
         # 3. PBR1倍割れ
-        pbr = info.get("priceToBook", None)
-        conditions["PBR1倍割れ"] = pbr is not None and pbr < 1.0
+        pbr = fins.get("PriceBookValueRatio")
+        pbr_val = round(float(pbr), 2) if pbr and float(pbr) > 0 else None
+        conditions["PBR1倍割れ"] = int(pbr_val is not None and pbr_val < 1.0)
         if conditions["PBR1倍割れ"]: score += 1
 
-        # 4. 75日移動平均に接近（-5%〜+3%以内）
-        if len(hist) >= 75:
-            ma75 = hist["Close"].rolling(75).mean().iloc[-1]
-            divergence75 = round((price - ma75) / ma75 * 100, 2)
-            conditions["75MA接近"] = -5 <= divergence75 <= 3
-        else:
-            divergence75 = None
-            conditions["75MA接近"] = False
-        if conditions["75MA接近"]: score += 1
-
-        # 5. 200日移動平均に接近（-5%〜+3%以内）
-        if len(hist) >= 200:
-            ma200 = hist["Close"].rolling(200).mean().iloc[-1]
-            divergence200 = round((price - ma200) / ma200 * 100, 2)
-            conditions["200MA接近"] = -5 <= divergence200 <= 3
-        else:
-            divergence200 = None
-            conditions["200MA接近"] = False
-        if conditions["200MA接近"]: score += 1
-
-        # 最低条件チェック（利回り3%以上 AND 配当性向30%以下 AND PBR1倍割れ）
-        min_conditions = (
-            conditions["利回り3%以上"] and
-            conditions["配当性向30%以下"] and
-            conditions["PBR1倍割れ"]
-        )
-        if not min_conditions:
+        # 最低条件チェック
+        if not (conditions["利回り3%以上"] and conditions["配当性向30%以下"] and conditions["PBR1倍割れ"]):
             return None
 
-        # スコア判定
+        # 4. 75日MA接近
+        conditions["75MA接近"] = int(div75 is not None and -5 <= div75 <= 3)
+        if conditions["75MA接近"]: score += 1
+
+        # 5. 200日MA接近
+        conditions["200MA接近"] = int(div200 is not None and -5 <= div200 <= 3)
+        if conditions["200MA接近"]: score += 1
+
+        # シグナル判定
         if score >= 5:
             signal = "BUY"
         elif score >= 3:
@@ -105,38 +136,41 @@ def score_stock(code):
         else:
             return None
 
-        name = info.get("shortName") or info.get("longName") or code
-
         return {
             "code": code,
             "name": name,
-            "price": round(price, 1),
-            "yield": div_yield_pct,
-            "pbr": round(pbr, 2) if pbr else None,
+            "price": price,
+            "yield": div_yield,
+            "pbr": pbr_val,
             "payout": payout_pct,
-            "ma75_div": divergence75,
-            "ma200_div": divergence200,
+            "ma75_div": div75,
+            "ma200_div": div200,
             "score": score,
             "signal": signal,
-            "conditions": {k: int(v) for k, v in conditions.items()},
+            "conditions": conditions,
             "updated": datetime.now().strftime("%Y-%m-%d %H:%M")
         }
 
-    except Exception:
+    except Exception as e:
+        print(f"  {code} エラー: {e}")
         return None
 
 
 def main():
-    print(f"スクリーニング開始: {len(STOCK_CODES)}銘柄")
-    results = []
+    print("J-Quants認証中...")
+    id_token = get_id_token()
 
-    for i, code in enumerate(STOCK_CODES):
-        if i % 50 == 0:
-            print(f"  進捗: {i}/{len(STOCK_CODES)}")
-        result = score_stock(code)
+    print("銘柄リスト取得中...")
+    stocks = get_all_stocks(id_token)
+    print(f"対象銘柄数: {len(stocks)}")
+
+    results = []
+    for i, stock in enumerate(stocks):
+        if i % 100 == 0:
+            print(f"  進捗: {i}/{len(stocks)}")
+        result = score_stock(id_token, stock)
         if result:
             results.append(result)
-        time.sleep(0.3)
 
     results.sort(key=lambda x: x["score"], reverse=True)
 
