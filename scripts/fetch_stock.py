@@ -11,15 +11,8 @@ JQUANTS_REFRESH_TOKEN = os.environ.get("JQUANTS_REFRESH_TOKEN")
 
 # ===== J-Quants認証 =====
 def get_id_token():
-    res = requests.post(
-        "https://api.jquants.com/v1/token/auth_refresh",
-        params={"refreshtoken": JQUANTS_REFRESH_TOKEN}
-    )
-    print(f"認証レスポンス: {res.status_code} / {res.text[:200]}")
-    data = res.json()
-    if "idToken" not in data:
-        raise Exception(f"認証失敗: {data}")
-    return data["idToken"]
+    # APIキー方式
+    return JQUANTS_REFRESH_TOKEN
 
 # ===== 株価取得 =====
 def get_prices(id_token, code):
