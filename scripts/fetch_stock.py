@@ -27,14 +27,14 @@ def get_stock_info(code):
 # ===== 株価取得 =====
 def get_prices(code):
     today = datetime.now()
-    from_date = (today - timedelta(days=300)).strftime("%Y-%m-%d")
-    to_date = today.strftime("%Y-%m-%d")
+    # 無料プランは直近の日付のみ指定
+    date_str = today.strftime("%Y-%m-%d")
     res = requests.get(
         "https://api.jquants.com/v2/prices/daily_quotes",
         headers=get_headers(),
-        params={"code": code, "from": from_date, "to": to_date}
+        params={"code": code, "date": date_str}
     )
-    print(f"  株価API: {res.status_code}")
+    print(f"  株価API: {res.status_code} / {res.text[:300]}")
     data = res.json().get("daily_quotes", [])
     if not data:
         return None
