@@ -4,37 +4,34 @@ import pandas as pd
 import os
 from datetime import datetime, timedelta
 
-# ===== 設定 =====
 TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
-API_KEY = os.environ.get("JQUANTS_REFRESH_TOKEN")
+REFRESH_TOKEN = os.environ.get("JQUANTS_REFRESH_TOKEN")
+API_URL = "https://api.jquants.com"
 
-def get_headers():
-    return {"x-api-key": API_KEY}
-
-# ===== 銘柄情報取得 =====
-def get_stock_info(code):
-    res = requests.get(
-        "https://api.jquants.com/v2/listed/info",
-        headers=get_headers(),
-        params={"code": code}
+# ===== IDトークン取得 =====
+def get_id_token():
+    res = requests.post(
+        f"{API_URL}/v1/token/auth_refresh",
+        params={"refreshtoken": REFRESH_TOKEN}
     )
-    data = res.json().get("info", [])
-    if not data:
-        return None
-    return data[0]
+    print(f"認証: {res.status_code} / {res.text[:200]}")
+    return res.json()["idToken"]
+
+def get_headers(id_token):
+    return {"Authorization": f"Bearer {id_token}"}
 
 # ===== 株価取得 =====
-def get_prices(code):
+def get_prices(id_token, code):
     today = datetime.now()
-    # 無料プランは直近の日付のみ指定
-    date_str = today.strftime("%Y-%m-%d")
+    from_date = (today - timedelta(days=300)).strftime("%Y-%m-%d")
+    to_date = today.strftime("%Y-%m-%d")
     res = requests.get(
-        "https://api.jquants.com/v2/prices/daily_quotes",
-        headers=get_headers(),
-        params={"code": code, "date": date_str}
+        f"{API_URL}/v1/prices/daily_quotes",
+        headers=get_headers(id_token),
+        params={"code": code, "from": from_date, "to": to_date}
     )
-    print(f"  株価API: {res.status_code} / {res.text[:300]}")
+    print(f"  株価API: {res.status_code}")
     data = res.json().get("daily_quotes", [])
     if not data:
         return None
@@ -44,10 +41,10 @@ def get_prices(code):
     return df
 
 # ===== 財務情報取得 =====
-def get_financials(code):
+def get_financials(id_token, code):
     res = requests.get(
-        "https://api.jquants.com/v2/fins/statements",
-        headers=get_headers(),
+        f"{API_URL}/v1/fins/statements",
+        headers=get_headers(id_token),
         params={"code": code}
     )
     data = res.json().get("statements", [])
@@ -62,6 +59,16 @@ def get_financials(code):
     if not annual:
         annual = data
     return annual[-1]
+
+# ===== 銘柄情報取得 =====
+def get_stock_info(id_token, code):
+    res = requests.get(
+        f"{API_URL}/v1/listed/info",
+        headers=get_headers(id_token),
+        params={"code": code}
+    )
+    data = res.json().get("info", [])
+    return data[0] if data else None
 
 # ===== 指標計算 =====
 def calc_indicators(df):
@@ -80,12 +87,15 @@ def calc_indicators(df):
 def send_telegram(message):
     if not TELEGRAM_TOKEN or not TELEGRAM_CHAT_ID:
         return
-    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-    requests.post(url, data={"chat_id": TELEGRAM_CHAT_ID, "text": message})
+    requests.post(
+        f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
+        data={"chat_id": TELEGRAM_CHAT_ID, "text": message}
+    )
 
 # ===== メイン処理 =====
 def main():
-    print("J-Quants V2 API使用中...")
+    print("J-Quants認証中...")
+    id_token = get_id_token()
 
     with open("data/master.json", "r", encoding="utf-8") as f:
         stocks = json.load(f)
@@ -97,22 +107,18 @@ def main():
     for stock in stocks:
         code = stock["code"]
         print(f"処理中: {code}")
-
         try:
-            # 銘柄情報
-            info = get_stock_info(code)
+            info = get_stock_info(id_token, code)
             name = stock.get("name") or (info.get("CompanyName") if info else code)
 
-            # 株価データ
-            df = get_prices(code)
+            df = get_prices(id_token, code)
             if df is None or len(df) < 25:
-                print(f"  {code}: 株価データ不足 ({len(df) if df is not None else 0}件)")
+                print(f"  {code}: 株価データ不足")
                 continue
 
             price, ma25, divergence, rsi = calc_indicators(df)
 
-            # 財務データ
-            fins = get_financials(code)
+            fins = get_financials(id_token, code)
             dividend = stock.get("dividend", 0)
             avg_yield = stock.get("avg_yield", 3.0)
 
@@ -122,10 +128,8 @@ def main():
                     dividend = round(float(div_raw), 2)
                     stock["dividend"] = dividend
 
-            # 配当利回り
             yield_rate = round(dividend / price * 100, 2) if price > 0 and dividend > 0 else 0.0
 
-            # シグナル判定
             cond_divergence = divergence is not None and divergence <= -3
             cond_rsi = rsi is not None and rsi <= 50
             cond_yield = yield_rate >= avg_yield + 0.7
@@ -138,7 +142,7 @@ def main():
             else:
                 signal = "WAIT"
 
-            result = {
+            results.append({
                 "code": code,
                 "name": name,
                 "price": price,
@@ -149,35 +153,28 @@ def main():
                 "dividend": dividend,
                 "signal": signal,
                 "updated": datetime.now().strftime("%Y-%m-%d %H:%M")
-            }
-            results.append(result)
-            print(f"  {code}: 株価{price}円 利回り{yield_rate}% RSI{rsi} 乖離率{divergence}% → {signal}")
+            })
+            print(f"  → 株価{price}円 利回り{yield_rate}% RSI{rsi} 乖離{divergence}% {signal}")
 
             if signal == "BUY":
-                new_buys.append(f"🟢 {name}({code})\n株価:{price}円 RSI:{rsi} 乖離率:{divergence}% 利回り:{yield_rate}%")
+                new_buys.append(f"🟢 {name}({code})\n株価:{price}円 RSI:{rsi} 乖離:{divergence}% 利回り:{yield_rate}%")
             elif signal == "WATCH":
-                new_watches.append(f"👀 {name}({code})\n株価:{price}円 RSI:{rsi} 乖離率:{divergence}% 利回り:{yield_rate}%")
+                new_watches.append(f"👀 {name}({code})\n株価:{price}円 RSI:{rsi} 乖離:{divergence}% 利回り:{yield_rate}%")
 
         except Exception as e:
             print(f"  {code} エラー: {e}")
             continue
 
-    # master.json更新
     with open("data/master.json", "w", encoding="utf-8") as f:
         json.dump(stocks, f, ensure_ascii=False, indent=2)
 
-    # result.json保存
     with open("data/result.json", "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
 
-    # Telegram通知
-    messages = []
     if new_buys:
-        messages.append("【🟢 BUYシグナル】\n\n" + "\n\n".join(new_buys))
+        send_telegram("【🟢 BUYシグナル】\n\n" + "\n\n".join(new_buys))
     if new_watches:
-        messages.append("【👀 WATCHシグナル】\n\n" + "\n\n".join(new_watches))
-    for msg in messages:
-        send_telegram(msg)
+        send_telegram("【👀 WATCHシグナル】\n\n" + "\n\n".join(new_watches))
 
     print(f"完了: {len(results)}銘柄処理")
 
