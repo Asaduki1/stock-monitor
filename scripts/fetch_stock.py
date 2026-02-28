@@ -107,9 +107,17 @@ def main():
             yield_rate = 0.0
 
         # シグナル判定
-        signal = "WAIT"
-        if divergence <= -10 and rsi <= 35 and yield_rate >= avg_yield + 0.7:
+        cond_divergence = divergence <= -3
+        cond_rsi = rsi <= 50
+        cond_yield = yield_rate >= avg_yield + 0.7
+        matched = sum([cond_divergence, cond_rsi, cond_yield])
+
+        if matched == 3:
             signal = "BUY"
+        elif matched == 2:
+            signal = "WATCH"
+        else:
+            signal = "WAIT"
 
         result = {
             "code": code,
